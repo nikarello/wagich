@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Каталог аниме-гобеленов</title>
+
+    
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,container-queries"></script>
+
+    
+    <script src="https://unpkg.com/panzoom@4.4.2/dist/panzoom.min.js"></script>
+
+
+
+    
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&family=Noto+Sans:wght@400;500;700;900&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      body {
+        font-family: "Plus Jakarta Sans", "Noto Sans", sans-serif;
+      }
+
+      .product-content img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        margin: 1rem 0;
+        border-radius: 8px;
+      }
+
+      .product-content table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 1rem 0;
+      }
+
+      .product-content th,
+      .product-content td {
+        border: 1px solid #ccc;
+        padding: 0.5rem;
+      }
+
+      .product-content ul,
+      .product-content ol {
+        margin-left: 1.5rem;
+        padding-left: 1rem;
+      }
+
+      .product-content code {
+        background-color: #f2f2f2;
+        padding: 0.2rem 0.4rem;
+        border-radius: 4px;
+        font-family: monospace;
+      }
+	  
+		.cursor-zoom-in {
+		  cursor: zoom-in;
+		}
+		.cursor-zoom-out {
+		  cursor: zoom-out;
+		}
+		#lightbox {
+		  display: none;
+		}
+		#lightbox.show {
+		  display: flex;
+		}
+		#zoom-target {
+		  cursor: zoom-in;
+		}
+
+		#lightbox-img {
+		  transform: scale(0.95);
+		  opacity: 0;
+		}
+
+
+		#lightbox-img {
+		  transition: transform 0.3s ease, opacity 0.3s ease;
+		}
+		#lightbox.show #lightbox-img {
+		  transform: scale(1);
+		  opacity: 1;
+		}
+
+    </style>
+  </head>
+
+  <body class="bg-[#fceff4] text-[#141414] min-h-screen">
+    <div class="max-w-[1280px] mx-auto bg-white min-h-screen rounded-[20px] shadow-md flex flex-col mt-8 mb-8 p-1">
+
+      <header class="w-full border-b border-gray-200 px-6 py-4 flex justify-center items-center">
+        <a href="../" class="text-lg font-bold text-gray-900 hover:text-red-600 transition-colors duration-200">
+          VAGICH. – Anime Tapestries
+        </a>
+      </header>
+
+      <main class="flex-1 px-6 py-8">
+        
+<section>
+  <h1 class="text-3xl font-bold text-center text-gray-900 mb-8">Каталог аниме-гобеленов</h1>
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
+    
+      
+      <article class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all">
+        <a href="../tapestry/berserk/">
+          <img src="../images/berserk.jpg" alt="Гобелен Berserk" class="w-full h-48 object-cover" />
+        </a>
+        <div class="p-4">
+          <h2 class="text-lg font-semibold text-gray-800 mb-1">
+            <a href="../tapestry/berserk/">Гобелен Berserk</a>
+          </h2>
+          <p class="text-sm text-gray-600 mb-2">💰 3600₽</p>
+          <a href="../tapestry/berserk/" class="text-blue-600 hover:underline text-sm">Подробнее →</a>
+        </div>
+      </article>
+    
+      
+      <article class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all">
+        <a href="../tapestry/bleach-1/">
+          <img src="../images/bleach-1.jpg" alt="Гобелен Bleach (вариант 1)" class="w-full h-48 object-cover" />
+        </a>
+        <div class="p-4">
+          <h2 class="text-lg font-semibold text-gray-800 mb-1">
+            <a href="../tapestry/bleach-1/">Гобелен Bleach (вариант 1)</a>
+          </h2>
+          <p class="text-sm text-gray-600 mb-2">💰 3600₽</p>
+          <a href="../tapestry/bleach-1/" class="text-blue-600 hover:underline text-sm">Подробнее →</a>
+        </div>
+      </article>
+    
+      
+      <article class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all">
+        <a href="../tapestry/bleach-2/">
+          <img src="../images/bleach-2.jpg" alt="Гобелен Bleach (вариант 2)" class="w-full h-48 object-cover" />
+        </a>
+        <div class="p-4">
+          <h2 class="text-lg font-semibold text-gray-800 mb-1">
+            <a href="../tapestry/bleach-2/">Гобелен Bleach (вариант 2)</a>
+          </h2>
+          <p class="text-sm text-gray-600 mb-2">💰 3600₽</p>
+          <a href="../tapestry/bleach-2/" class="text-blue-600 hover:underline text-sm">Подробнее →</a>
+        </div>
+      </article>
+    
+      
+      <article class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all">
+        <a href="../tapestry/chainsaw-man/">
+          <img src="../images/chainsaw-man.jpg" alt="Гобелен Chainsaw Man" class="w-full h-48 object-cover" />
+        </a>
+        <div class="p-4">
+          <h2 class="text-lg font-semibold text-gray-800 mb-1">
+            <a href="../tapestry/chainsaw-man/">Гобелен Chainsaw Man</a>
+          </h2>
+          <p class="text-sm text-gray-600 mb-2">💰 3600₽</p>
+          <a href="../tapestry/chainsaw-man/" class="text-blue-600 hover:underline text-sm">Подробнее →</a>
+        </div>
+      </article>
+    
+      
+      <article class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all">
+        <a href="../tapestry/dragon-ball/">
+          <img src="../images/dragon-ball.jpg" alt="Гобелен Dragon Ball" class="w-full h-48 object-cover" />
+        </a>
+        <div class="p-4">
+          <h2 class="text-lg font-semibold text-gray-800 mb-1">
+            <a href="../tapestry/dragon-ball/">Гобелен Dragon Ball</a>
+          </h2>
+          <p class="text-sm text-gray-600 mb-2">💰 3600₽</p>
+          <a href="../tapestry/dragon-ball/" class="text-blue-600 hover:underline text-sm">Подробнее →</a>
+        </div>
+      </article>
+    
+      
+      <article class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all">
+        <a href="../tapestry/hxh/">
+          <img src="../images/hxh.jpg" alt="Гобелен Hunter x Hunter" class="w-full h-48 object-cover" />
+        </a>
+        <div class="p-4">
+          <h2 class="text-lg font-semibold text-gray-800 mb-1">
+            <a href="../tapestry/hxh/">Гобелен Hunter x Hunter</a>
+          </h2>
+          <p class="text-sm text-gray-600 mb-2">💰 3600₽</p>
+          <a href="../tapestry/hxh/" class="text-blue-600 hover:underline text-sm">Подробнее →</a>
+        </div>
+      </article>
+    
+      
+      <article class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all">
+        <a href="../tapestry/jojo/">
+          <img src="../images/jojo.jpg" alt="Гобелен JoJo’s Bizarre Adventure" class="w-full h-48 object-cover" />
+        </a>
+        <div class="p-4">
+          <h2 class="text-lg font-semibold text-gray-800 mb-1">
+            <a href="../tapestry/jojo/">Гобелен JoJo’s Bizarre Adventure</a>
+          </h2>
+          <p class="text-sm text-gray-600 mb-2">💰 3600₽</p>
+          <a href="../tapestry/jojo/" class="text-blue-600 hover:underline text-sm">Подробнее →</a>
+        </div>
+      </article>
+    
+      
+      <article class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all">
+        <a href="../tapestry/jjk/">
+          <img src="../images/jjk.jpg" alt="Гобелен Jujutsu Kaisen" class="w-full h-48 object-cover" />
+        </a>
+        <div class="p-4">
+          <h2 class="text-lg font-semibold text-gray-800 mb-1">
+            <a href="../tapestry/jjk/">Гобелен Jujutsu Kaisen</a>
+          </h2>
+          <p class="text-sm text-gray-600 mb-2">💰 3600₽</p>
+          <a href="../tapestry/jjk/" class="text-blue-600 hover:underline text-sm">Подробнее →</a>
+        </div>
+      </article>
+    
+      
+      <article class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all">
+        <a href="../tapestry/onepeace/">
+          <img src="../images/onepeace.jpg" alt="Гобелен ONE PEACE" class="w-full h-48 object-cover" />
+        </a>
+        <div class="p-4">
+          <h2 class="text-lg font-semibold text-gray-800 mb-1">
+            <a href="../tapestry/onepeace/">Гобелен ONE PEACE</a>
+          </h2>
+          <p class="text-sm text-gray-600 mb-2">💰 3600₽</p>
+          <a href="../tapestry/onepeace/" class="text-blue-600 hover:underline text-sm">Подробнее →</a>
+        </div>
+      </article>
+    
+      
+      <article class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all">
+        <a href="../tapestry/sailormoon/">
+          <img src="../images/sailormoon.jpg" alt="Гобелен Sailor Moon" class="w-full h-48 object-cover" />
+        </a>
+        <div class="p-4">
+          <h2 class="text-lg font-semibold text-gray-800 mb-1">
+            <a href="../tapestry/sailormoon/">Гобелен Sailor Moon</a>
+          </h2>
+          <p class="text-sm text-gray-600 mb-2">💰 3600₽</p>
+          <a href="../tapestry/sailormoon/" class="text-blue-600 hover:underline text-sm">Подробнее →</a>
+        </div>
+      </article>
+    
+  </div>
+</section>
+
+      </main>
+
+      <footer class="border-t border-gray-200 py-6 text-center text-sm text-gray-500">
+        © 2025 Anime Tapestries. Все права защищены.
+      </footer>
+
+    </div>
+
+    
+	<script>
+	  document.addEventListener('DOMContentLoaded', () => {
+		const container = document.getElementById('zoom-container');
+		if (!container) return;
+
+		const panzoom = Panzoom(container, {
+		  maxScale: 3,
+		  minScale: 1,
+		  startScale: 1,
+		  contain: 'outside',
+		  animate: true,
+		  duration: 200,
+		});
+
+		container.addEventListener('wheel', panzoom.zoomWithWheel);
+
+		let isZoomed = false;
+		container.addEventListener('click', () => {
+		  if (isZoomed) {
+			panzoom.zoomTo(0, 0, 1);
+			container.classList.remove('cursor-zoom-out');
+			container.classList.add('cursor-zoom-in');
+		  } else {
+			panzoom.zoomTo(0, 0, 2);
+			container.classList.remove('cursor-zoom-in');
+			container.classList.add('cursor-zoom-out');
+		  }
+		  isZoomed = !isZoomed;
+		});
+
+		container.classList.add('cursor-zoom-in');
+	  });
+	</script>
+
+	<script>
+	  document.addEventListener('DOMContentLoaded', () => {
+		const thumb = document.getElementById('zoom-target');
+		const overlay = document.getElementById('lightbox');
+		const overlayImg = document.getElementById('lightbox-img');
+		const closeBtn = document.getElementById('lightbox-close');
+
+		if (thumb && overlay && overlayImg && closeBtn) {
+		  thumb.addEventListener('click', () => {
+			overlayImg.src = thumb.src;
+			overlay.classList.add('show');
+			overlayImg.classList.add('cursor-zoom-out');
+		  });
+
+		  closeBtn.addEventListener('click', () => {
+			overlay.classList.remove('show');
+		  });
+
+		  overlay.addEventListener('click', (e) => {
+			if (e.target === overlay) overlay.classList.remove('show');
+		  });
+
+		  overlayImg.addEventListener('click', () => {
+			overlay.classList.remove('show');
+		  });
+		}
+	  });
+	</script>
+
+
+
+
+  </body>
+</html>
