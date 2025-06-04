@@ -1,0 +1,62 @@
+{{ define "main" }}
+
+{{/* === Загружаем CSV с актуальными ценами и остатками === */}}
+{{ $csv := resources.Get "products.csv" | transform.Unmarshal }}
+{{ $map := dict }}
+{{ range $csv }}
+  {{ $map = merge $map (dict (index . 1) (dict "price" (index . 2) "in_stock" (index . 3))) }}
+{{ end }}
+
+<div class="layout-content-container flex flex-col max-w-[1280px] flex-1 mx-auto">
+
+  <!-- Hero-секция -->
+  <section class="@container @[480px]:p-4">
+    <div class="flex min-h-[280px] flex-col gap-6 bg-cover bg-center bg-no-repeat @[280px]:gap-8 @[480px]:rounded-xl items-center justify-center p-4"
+         style='background-image: linear-gradient(rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.4) 100%), url("{{ "images/hero.jpg" | absURL }}");'>
+
+      <div class="flex flex-col gap-2 text-center">
+        <h1 class="text-white text-4xl font-black leading-tight tracking-[-0.033em] @[480px]:text-5xl">Стиль жизни</h1>
+        <h2 class="text-white text-sm font-normal @[480px]:text-base">
+          Подборка гобеленовых ковров с топовыми аниме.
+        </h2>
+      </div>
+      <a href="#catalog" class="flex min-w-[84px] max-w-[480px] items-center justify-center rounded-xl h-10 px-4 bg-red-600 text-white text-sm font-bold hover:bg-red-700 transition">
+        「行くぞ！」
+      </a>
+    </div>
+  </section>
+
+  <!-- Описание -->
+  <section class="mt-8 px-4 text-center text-neutral-700 text-base leading-relaxed">
+    <p class="max-w-[720px] mx-auto">
+      Добро пожаловать в наш уютный уголок аниме-декора! Здесь вы найдёте гобелены с любимыми персонажами — стильный способ украсить комнату, вдохновиться эстетикой и сделать подарок фанату.
+      <br/>
+      Все гобелены выполнены в высоком качестве, размер — <strong>160×130 см</strong>, материал — <strong>70% полиэстер и 30% хлопок</strong>.
+    </p>
+  </section>
+
+  <!-- Каталог -->
+  <section id="catalog">
+    <h2 class="text-[#141414] text-[22px] font-bold tracking-[-0.015em] px-4 pb-3 pt-10">Каталог аниме-гобеленов</h2>
+    <div class="grid grid-cols-2 md:grid-cols-3 gap-6 px-4">
+      {{ range where .Site.RegularPages "Section" "tapestry" }}
+        {{ $base := .File.BaseFileName | lower }}
+        {{ $img := print "images/" $base ".jpg" | absURL }}
+
+        <a href="{{ .RelPermalink }}" class="flex flex-col gap-2 rounded-xl overflow-hidden shadow hover:shadow-lg transition bg-white">
+          <div class="w-full bg-center bg-no-repeat bg-cover aspect-[4/5]" style='background-image: url("{{ $img }}");'></div>
+          <div class="p-3">
+            <h3 class="text-[#141414] text-base font-semibold">{{ .Title }}</h3>
+            {{ with index $map $base }}
+              <p class="text-neutral-500 text-sm">💰 {{ .price }}₽</p>
+            {{ else }}
+              <p class="text-gray-400 text-sm">Цена недоступна</p>
+            {{ end }}
+          </div>
+        </a>
+      {{ end }}
+    </div>
+  </section>
+
+</div>
+{{ end }}

@@ -1,0 +1,9 @@
+baseURL = "https://nikarello.github.io/wagich/"
+relativeURLs = true
+canonifyURLs = true
+
+languageCode = 'ru-ru'
+title = 'WAGICH — Аниме-гобелены'
+theme = 'ananke'
+[params]
+  custom_css = ["css/custom.css"]

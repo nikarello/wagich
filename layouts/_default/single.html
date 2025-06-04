@@ -1,0 +1,89 @@
+{{ define "main" }}
+
+{{/* === Загружаем CSV и создаём словарь name → {price, in_stock} === */}}
+{{ $csv := resources.Get "products.csv" | transform.Unmarshal }}
+{{ $map := dict }}
+{{ range $csv }}
+  {{ $map = merge $map (dict (index . 1) (dict "price" (index . 2) "in_stock" (index . 3))) }}
+{{ end }}
+
+<section class="max-w-5xl mx-auto px-4 py-10">
+  {{ $img := (print "images/" (lower .File.BaseFileName) ".jpg") | relURL }}
+
+  <div class="bg-white rounded-2xl shadow-md overflow-hidden flex flex-col lg:flex-row gap-6">
+    
+    <!-- Левая картинка с зумом -->
+    <div class="lg:w-1/2 overflow-hidden rounded-lg relative">
+      <div id="zoom-container" class="overflow-hidden rounded-xl bg-white max-w-[640px] mx-auto">
+        <img
+          id="zoom-target"
+          src="{{ $img }}"
+          alt="Гобелен {{ .Title }}"
+          class="rounded-xl max-w-full cursor-zoom-in"
+        />
+
+        <!-- Fullscreen overlay -->
+        <div id="lightbox" class="hidden fixed inset-0 bg-black bg-opacity-80 z-50 flex justify-center items-center">
+          <img id="lightbox-img" class="max-w-full max-h-full rounded-lg shadow-xl" />
+          <button id="lightbox-close" class="absolute top-4 right-4 text-white text-3xl font-bold">&times;</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Правая часть товара -->
+    <div class="lg:w-1/2 flex flex-col justify-between gap-4 px-4 py-2">
+      <h1 class="text-lg font-bold text-[#141414] mb-3">{{ .Title }}</h1>
+      <div class="prose prose-sm text-[#444] product-content mb-4">
+        {{ .Content }}
+      </div>
+
+      {{ $name := .File.BaseFileName }}
+      {{ with index $map $name }}
+        <p class="text-base text-[#141414]"><strong>💰 Цена:</strong> {{ .price }} ₽</p>
+
+        {{ if eq (printf "%v" .in_stock) "0" }}
+          <p class="text-sm text-red-600"><strong>❌ Отсутствует на складе — доступен предзаказ</strong></p>
+        {{ else }}
+          <p class="text-sm text-gray-700"><strong>📦 Остаток:</strong> {{ .in_stock }} шт.</p>
+        {{ end }}
+
+      {{ else }}
+        <p class="text-red-500 text-sm">Цена и наличие временно недоступны</p>
+      {{ end }}
+
+      <a href="https://t.me/Narfboer" target="_blank"
+         class="mt-4 bg-black text-white text-sm font-bold px-5 py-2 rounded-lg hover:bg-gray-800 transition">
+        ✉️ Написать в Telegram
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- === Также в наличии === -->
+<section class="mt-10">
+  <h2 class="text-xl font-bold mb-4">Также посмотрите:</h2>
+  <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    {{ $current := .RelPermalink }}
+    {{ $all := where .Site.RegularPages "Section" "tapestry" }}
+    {{ $others := where $all "RelPermalink" "ne" $current }}
+
+    {{ range first 6 (shuffle $others) }}
+      <a href="{{ .RelPermalink }}" class="block border rounded-lg overflow-hidden shadow hover:shadow-md transition">
+        {{ $img := (print "/images/" (lower .File.BaseFileName) ".jpg") }}
+        <img src="{{ $img }}" alt="{{ .Title }}" class="w-full h-48 object-cover" />
+
+        <div class="p-4">
+          <h3 class="font-semibold text-base">{{ .Title }}</h3>
+          {{ $name := .File.BaseFileName }}
+          {{ with index $map $name }}
+            <p class="text-gray-700 mt-1">{{ .price }} ₽</p>
+          {{ else }}
+            <p class="text-gray-400 mt-1">Цена недоступна</p>
+          {{ end }}
+        </div>
+      </a>
+    {{ end }}
+  </div>
+</section>
+
+{{ end }}

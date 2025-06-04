@@ -1,0 +1,22 @@
+{{ define "main" }}
+<section>
+  <h1 class="text-3xl font-bold text-center text-gray-900 mb-8">Каталог аниме-гобеленов</h1>
+  <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
+    {{ range .Pages }}
+      {{ $img := (print "images/" (lower .File.BaseFileName) ".jpg") | relURL }}
+      <article class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all">
+        <a href="{{ .RelPermalink }}">
+          <img src="{{ $img }}" alt="{{ .Title }}" class="w-full h-48 object-cover" />
+        </a>
+        <div class="p-4">
+          <h2 class="text-lg font-semibold text-gray-800 mb-1">
+            <a href="{{ .RelPermalink }}">{{ .Title }}</a>
+          </h2>
+          <p class="text-sm text-gray-600 mb-2">💰 3600₽</p>
+          <a href="{{ .RelPermalink }}" class="text-blue-600 hover:underline text-sm">Подробнее →</a>
+        </div>
+      </article>
+    {{ end }}
+  </div>
+</section>
+{{ end }}
