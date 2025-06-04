@@ -1,0 +1,31 @@
+name: Обновление каталога (только CSV + билд)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Клонируем репозиторий
+        uses: actions/checkout@v3
+
+      - name: Устанавливаем Hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: '0.115.4'
+          extended: true
+
+      - name: Скачиваем CSV из Google Sheets
+        run: |
+          mkdir -p assets
+          curl -L "https://docs.google.com/spreadsheets/d/1G-0NZi7_omk37RKGFr7A6eVuGZLkGzx3TMJuS4LH0ew/export?format=csv" -o assets/products.csv
+
+      - name: Сборка Hugo
+        run: hugo --minify
+
+      - name: Публикация на GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
