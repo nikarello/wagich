@@ -1,31 +1,33 @@
-name: Обновление каталога (только CSV + билд)
+name: 📦 Обновить каталог с Google Sheets
 
 on:
-  workflow_dispatch:
+  workflow_dispatch:  # позволяет запускать вручную по кнопке на GitHub
 
 jobs:
-  build:
+  update-catalog:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Клонируем репозиторий
-        uses: actions/checkout@v3
+      - name: 📥 Клонирование репозитория
+        uses: actions/checkout@v4
 
-      - name: Устанавливаем Hugo
-        uses: peaceiris/actions-hugo@v2
-        with:
-          hugo-version: '0.115.4'
-          extended: true
-
-      - name: Скачиваем CSV из Google Sheets
+      - name: ⬇️ Скачивание CSV с Google Sheets
         run: |
           mkdir -p assets
           curl -L "https://docs.google.com/spreadsheets/d/1G-0NZi7_omk37RKGFr7A6eVuGZLkGzx3TMJuS4LH0ew/export?format=csv" -o assets/products.csv
 
-      - name: Сборка Hugo
-        run: hugo --minify
+      - name: 🛠️ Установка Hugo
+        uses: peaceiris/actions-hugo@v2
+        with:
+          hugo-version: 'latest'
 
-      - name: Публикация на GitHub Pages
+      - name: 🔨 Сборка Hugo-сайта
+        run: hugo --cleanDestinationDir
+
+      - name: 📤 Деплой на gh-pages (если были изменения)
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./public
+          publish_branch: gh-pages
+          force_orphan: true  # создаёт чистую историю (по желанию)
