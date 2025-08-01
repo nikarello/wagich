@@ -1,5 +1,5 @@
 @echo off
-setlocal
+setlocal enabledelayedexpansion
 
 :: === ПАРАМЕТРЫ ===
 set "REPO_URL=https://github.com/nikarello/wagich.git"
@@ -7,7 +7,7 @@ set "CSV_URL=https://docs.google.com/spreadsheets/d/1G-0NZi7_omk37RKGFr7A6eVuGZL
 
 :: === 0. Скачиваем CSV из Google Sheets
 echo 📥 Загрузка product данных из Google Sheets...
-mkdir assets
+mkdir assets 2>nul
 curl -L %CSV_URL% -o assets/products.csv
 
 if %errorlevel% neq 0 (
@@ -19,31 +19,36 @@ if %errorlevel% neq 0 (
 cd /d %~dp0
 
 :: === 2. Пересобрать Hugo-сайт
-echo 🛠️ Пересборка сайта...
+echo 🛠️ Hugo сборка...
 hugo --cleanDestinationDir
 if %errorlevel% neq 0 (
     echo ❌ Hugo сборка не удалась
     exit /b
 )
 
-:: === 3. Перейти в public/
+:: === 3. Переход в public/
 cd public
 
-:: === 4. Настроить git (если не инициализировано)
+:: === 4. Настроить git
 if not exist ".git" (
     git init
     git remote add origin %REPO_URL%
 )
 
-:: === 5. Создать и переключиться на ветку gh-pages
+:: === 5. Переключиться на gh-pages
 git checkout -B gh-pages
 
-:: === 6. Добавить и закоммитить изменения
+:: === 6. Проверить изменения
 git add .
-git commit -m "🚀 Deploy Hugo site"
+git diff --cached --quiet
+if !errorlevel! equ 0 (
+    echo 🔕 Нет изменений — пуш не требуется.
+    exit /b
+)
 
-:: === 7. Залить в ветку gh-pages с форсом
+:: === 7. Коммит и пуш
+git commit -m "🚀 Deploy Hugo site with updated catalog"
 git push -f origin gh-pages
 
-echo ✅ Сайт успешно опубликован на GitHub Pages!
+echo ✅ Сайт обновлён и опубликован на GitHub Pages!
 pause
