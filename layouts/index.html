@@ -41,10 +41,18 @@
     <div class="grid grid-cols-2 md:grid-cols-3 gap-6 px-4">
       {{ range where .Site.RegularPages "Section" "tapestry" }}
         {{ $base := .File.BaseFileName | lower }}
-        {{ $img := print "images/" $base ".jpg" | absURL }}
+        {{ $imgPath := print "images/" $base ".jpg" }}
 
         <a href="{{ .RelPermalink }}" class="flex flex-col gap-2 rounded-xl overflow-hidden shadow hover:shadow-lg transition bg-white">
-          <div class="w-full bg-center bg-no-repeat bg-cover aspect-[4/5]" style='background-image: url("{{ $img }}");'></div>
+          {{ with resources.Get $imgPath }}
+            {{ $resized := .Fit "400x500" }}
+            <div class="w-full bg-center bg-no-repeat bg-cover aspect-[4/5]" style='background-image: url("{{ $resized.RelPermalink }}");'></div>
+          {{ else }}
+            <div class="w-full bg-gray-200 flex items-center justify-center aspect-[4/5]">
+              <span class="text-gray-500 text-sm">⛔ Нет изображения</span>
+            </div>
+          {{ end }}
+
           <div class="p-3">
             <h3 class="text-[#141414] text-base font-semibold">{{ .Title }}</h3>
             {{ with index $map $base }}
