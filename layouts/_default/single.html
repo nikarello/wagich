@@ -11,7 +11,7 @@
   {{ $img := (print "images/" (lower .File.BaseFileName) ".jpg") | relURL }}
 
   <div class="bg-white rounded-2xl shadow-md overflow-hidden flex flex-col lg:flex-row gap-6">
-    
+
     <!-- Левая картинка с зумом -->
     <div class="lg:w-1/2 overflow-hidden rounded-lg relative">
       <div id="zoom-container" class="overflow-hidden rounded-xl bg-white max-w-[640px] mx-auto">
@@ -68,14 +68,22 @@
     {{ $others := where $all "RelPermalink" "ne" $current }}
 
     {{ range first 6 (shuffle $others) }}
+      {{ $base := .File.BaseFileName | lower }}
+      {{ $imgPath := print "images/" $base ".jpg" }}
+
       <a href="{{ .RelPermalink }}" class="block border rounded-lg overflow-hidden shadow hover:shadow-md transition">
-        {{ $img := (print "/images/" (lower .File.BaseFileName) ".jpg") }}
-        <img src="{{ $img }}" alt="{{ .Title }}" class="w-full h-48 object-cover" />
+        {{ with resources.Get $imgPath }}
+          {{ $resized := .Fit "400x500" }}
+          <img src="{{ $resized.RelPermalink }}" alt="{{ .Title }}" class="w-full h-48 object-cover" />
+        {{ else }}
+          <div class="w-full h-48 flex items-center justify-center bg-gray-200 text-gray-500">
+            Нет изображения
+          </div>
+        {{ end }}
 
         <div class="p-4">
           <h3 class="font-semibold text-base">{{ .Title }}</h3>
-          {{ $name := .File.BaseFileName }}
-          {{ with index $map $name }}
+          {{ with index $map $base }}
             <p class="text-gray-700 mt-1">{{ .price }} ₽</p>
           {{ else }}
             <p class="text-gray-400 mt-1">Цена недоступна</p>
