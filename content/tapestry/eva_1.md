@@ -1,5 +1,5 @@
 ---
-title: "Гобелен Evangelion (Асука и ЕВА — прыжок)"
+title: "Гобелен Evangelion (Аска и Ева)"
 date: 2025-05-31
 draft: false
 ---

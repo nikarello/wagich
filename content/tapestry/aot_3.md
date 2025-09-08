@@ -1,5 +1,5 @@
 ---
-title: "Гобелен Attack on Titan (обложка журнала, Эрен/Микаса/Армин)"
+title: "Гобелен Attack on Titan (обложка журнала, Эрен и Леви)"
 date: 2025-05-31
 draft: false
 ---

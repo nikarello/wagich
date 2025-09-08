@@ -1,5 +1,5 @@
 ---
-title: "Гобелен Jujutsu Kaisen (Годжо — холодный фокус)"
+title: "Гобелен Jujutsu Kaisen (Годжо — красный)"
 date: 2025-05-31
 draft: false
 ---

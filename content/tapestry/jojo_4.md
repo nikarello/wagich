@@ -1,5 +1,5 @@
 ---
-title: "Гобелен JoJo’s Bizarre Adventure (Джотаро — удар и звезда)"
+title: "Гобелен JoJo’s Bizarre Adventure (Джайро Цеппели)"
 date: 2025-05-31
 draft: false
 ---

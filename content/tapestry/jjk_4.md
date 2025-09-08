@@ -1,5 +1,5 @@
 ---
-title: "Гобелен Jujutsu Kaisen (Итадори с черепом)"
+title: "Гобелен Jujutsu Kaisen (Сукуна с черепом)"
 date: 2025-05-31
 draft: false
 ---
