@@ -1,5 +1,5 @@
 ---
-title: "Гобелен JoJo’s Bizarre Adventure (дуэт в барочной раме)"
+title: "Гобелен JoJo’s Bizarre Adventure (Джотаро и Джолин)"
 date: 2025-05-31
 draft: false
 ---

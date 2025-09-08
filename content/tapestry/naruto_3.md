@@ -1,5 +1,5 @@
 ---
-title: "Гобелен Jujutsu Kaisen (ч/б скетч — схватка с проклятием)"
+title: "Гобелен Naruto (Пейн ч/б)"
 date: 2025-05-31
 draft: false
 ---

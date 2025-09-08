@@ -1,5 +1,5 @@
 ---
-title: "Гобелен Attack on Titan (у стены — красное небо)"
+title: "Гобелен Attack on Titan (Дрожь Земли)"
 date: 2025-05-31
 draft: false
 ---
