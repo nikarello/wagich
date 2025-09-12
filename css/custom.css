@@ -1,0 +1,172 @@
+/* === Общие стили === */
+body {
+  margin: 0;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #f8f8f8;
+  color: #222;
+}
+
+main.catalog {
+  padding: 2rem 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+h1 {
+  text-align: center;
+  font-size: 2.2rem;
+  margin-bottom: 2rem;
+  color: #111;
+}
+
+/* === Сетка карточек === */
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+/* === Карточка товара === */
+.card {
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+}
+
+.card img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.card h2 {
+  font-size: 1.2rem;
+  margin: 1rem;
+}
+
+.card p {
+  font-size: 1rem;
+  margin: 0 1rem 0.5rem 1rem;
+}
+
+.card a {
+  text-decoration: none;
+  color: #0077cc;
+  font-weight: 500;
+  margin: 1rem;
+  transition: color 0.2s;
+}
+
+.card a:hover {
+  color: #005fa3;
+}
+
+/* === Страница товара: улучшенная адаптация === */
+main.product {
+  padding: 2rem 1rem;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.product-card {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 6px 24px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  margin-bottom: 3rem;
+}
+
+@media (min-width: 768px) {
+  .product-card {
+    flex-direction: row;
+  }
+}
+
+.product-image {
+  width: 100%;
+  max-height: 600px;
+  overflow: hidden;
+  background: #fafafa;
+}
+
+.product-image img {
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  display: block;
+  border-bottom: 1px solid #eee;
+}
+
+@media (min-width: 768px) {
+  .product-image {
+    flex: 1;
+    border-right: 1px solid #eee;
+    border-bottom: none;
+  }
+
+  .product-image img {
+    height: 100%;
+    max-height: none;
+    border-bottom: none;
+  }
+}
+
+.product-details {
+  flex: 1;
+  padding: 2rem;
+}
+
+.product-details h1 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+}
+
+.product-content {
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 2rem;
+}
+
+/* Гарантируем, что картинки внутри .Content тоже не вылезают */
+.product-content img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 1rem auto;
+  border-radius: 8px;
+}
+
+/* Кнопка Telegram */
+.product-button {
+  display: inline-block;
+  background-color: #0077cc;
+  color: white;
+  font-weight: 600;
+  padding: 0.75rem 1.5rem;
+  border-radius: 8px;
+  text-decoration: none;
+  transition: background 0.2s ease;
+}
+
+.product-button:hover {
+  background-color: #005fa3;
+}
+
+.product-content img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 1rem 0;
+  border-radius: 8px;
+}
