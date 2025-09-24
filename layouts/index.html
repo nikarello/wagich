@@ -4,7 +4,7 @@
 {{ $csv := resources.Get "products.csv" | transform.Unmarshal }}
 {{ $map := dict }}
 {{ range $csv }}
-  {{ $map = merge $map (dict (index . 1) (dict "price" (index . 2) "in_stock" (index . 3))) }}
+  {{ $map = merge $map (dict (lower (index . 1)) (dict "price" (index . 2) "in_stock" (index . 3))) }}
 {{ end }}
 
 <div class="layout-content-container flex flex-col max-w-[1280px] flex-1 mx-auto">
@@ -20,8 +20,18 @@
           Подборка гобеленовых ковров с топовыми аниме.
         </h2>
       </div>
-      <a href="#catalog" class="flex min-w-[84px] max-w-[480px] items-center justify-center rounded-xl h-10 px-4 bg-red-600 text-white text-sm font-bold hover:bg-red-700 transition">
-        「行くぞ！」
+      <a href="https://t.me/wa_gi_ch"
+         target="_blank" rel="noopener"
+         aria-label="Наш Telegram-канал"
+         class="inline-flex min-w-[84px] max-w-[480px] items-center justify-center
+                h-10 px-4 rounded-2xl bg-red-600 text-white text-sm
+                font-medium italic tracking-wide
+                hover:bg-red-700 hover:shadow-md active:scale-[0.98] transition">
+        <!-- Telegram icon -->
+        <svg aria-hidden="true" class="w-4 h-4 mr-2" viewBox="0 0 240 240" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+          <path d="M120 0C53.7 0 0 53.7 0 120s53.7 120 120 120 120-53.7 120-120S186.3 0 120 0zm56.6 83.5l-17.9 84.6c-1.3 6-4.9 7.5-10 4.7l-27.6-20.3-13.3 12.8c-1.5 1.5-2.8 2.8-5.7 2.8l2-28.7 52.3-47.3c2.3-2.1-.5-3.3-3.6-1.2l-64.6 40.7-27.8-8.7c-6-1.9-6.1-6-1.3-8.8l108.6-41.9c5.1-1.9 9.6 1.2 8 8.9z"/>
+        </svg>
+        Наш&nbsp;ТГК
       </a>
     </div>
   </section>
@@ -41,13 +51,23 @@
     <div class="grid grid-cols-2 md:grid-cols-3 gap-6 px-4">
       {{ range where .Site.RegularPages "Section" "tapestry" }}
         {{ $base := .File.BaseFileName | lower }}
-        {{ $imgPath := print "images/" $base ".jpg" }}
+        {{/* Выбираем нормальную или soldout-картинку в зависимости от остатков */}}
+        {{ $normal := resources.Get (print "images/" $base ".jpg") }}
+        {{ $sold   := resources.Get (print "images/" $base "___soldout.jpg") }}
+        {{ $instock := "0" }}
+        {{ with index $map $base }}
+          {{ $instock = printf "%v" (index . "in_stock") }}
+        {{ end }}
+        {{ $chosen := cond (ne $instock "0") $normal (or $sold $normal) }}
 
         <a href="{{ .RelPermalink }}" class="flex flex-col gap-2 rounded-xl overflow-hidden shadow hover:shadow-lg transition bg-white">
-          {{ with resources.Get $imgPath }}
+          {{ with $chosen }}
             {{ $resized := .Fit "400x500" }}
-            <div class="w-full bg-center bg-no-repeat bg-cover aspect-[4/5]" style='background-image: url("{{ $resized.RelPermalink }}");'></div>
-          {{ else }}
+            <div
+              class="w-full bg-center bg-no-repeat bg-cover aspect-[4/5]"
+              style='background-image: url("{{ $resized.RelPermalink }}");'>
+            </div>          
+		  {{ else }}
             <div class="w-full bg-gray-200 flex items-center justify-center aspect-[4/5]">
               <span class="text-gray-500 text-sm">⛔ Нет изображения</span>
             </div>
