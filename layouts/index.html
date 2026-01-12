@@ -144,11 +144,12 @@
         {{ $sold   := resources.Get (print "images/" $base "___soldout.jpg") }}
         {{ $chosen := cond $isIn $normal (or $sold $normal) }}
 
+        <!-- ВАЖНО: h-full + flex-col чтобы низ карточки выравнивался -->
         <a href="{{ .RelPermalink }}"
            data-product-card="1"
            data-instock="{{ cond $isIn "1" "0" }}"
            data-search="{{ lower (printf "%s %s" .Title $base) }}"
-           class="flex flex-col gap-2 rounded-xl overflow-hidden shadow hover:shadow-lg transition bg-white">
+           class="h-full flex flex-col gap-2 rounded-xl overflow-hidden shadow hover:shadow-lg transition bg-white">
 
           {{ with $chosen }}
             {{ $resized := .Fit "400x500" }}
@@ -162,19 +163,23 @@
             </div>
           {{ end }}
 
-          <div class="p-3">
-            <h3 class="text-[#141414] text-base font-semibold">{{ .Title }}</h3>
+          <!-- Контент: растягиваем, а нижнюю строку прижимаем вниз -->
+          <div class="p-3 flex flex-col flex-1">
+            <h3 class="text-[#141414] text-base font-semibold">
+              {{ .Title }}
+            </h3>
 
-            <div class="mt-2 flex items-end justify-between gap-3">
+            <!-- Нижняя строка всегда внизу карточки -->
+            <div class="mt-auto pt-2 flex items-end justify-between gap-3">
               {{ with index $map $base }}
                 <p class="text-neutral-500 text-sm">💰 {{ .price }}₽</p>
               {{ else }}
                 <p class="text-gray-400 text-sm">Цена недоступна</p>
               {{ end }}
 
-              <!-- Визуальная подсказка кликабельности -->
-              <span class="text-sm font-semibold text-red-600 hover:text-red-700 transition">
-                подробнее →
+              <!-- Только стрелка -->
+              <span class="text-lg font-bold text-red-600 hover:text-red-700 transition leading-none">
+                →
               </span>
             </div>
           </div>
