@@ -4,8 +4,25 @@
 {{ $csv := resources.Get "products.csv" | transform.Unmarshal }}
 {{ $map := dict }}
 {{ range $csv }}
-  {{ $map = merge $map (dict (lower (index . 1)) (dict "price" (index . 2) "in_stock" (index . 3))) }}
+  {{ $key := lower (printf "%v" (index . 1)) }}
+  {{ $map = merge $map (dict $key (dict "price" (index . 2) "in_stock" (index . 3))) }}
 {{ end }}
+
+{{/* === Список товаров === */}}
+{{ $pages := where .Site.RegularPages "Section" "tapestry" }}
+
+{{/* === Подсчёт статусов (для бейджей в фильтре) === */}}
+{{ $total := len $pages }}
+{{ $inCount := 0 }}
+{{ range $pages }}
+  {{ $base := .File.BaseFileName | lower }}
+  {{ $raw := "" }}
+  {{ with index $map $base }}{{ $raw = printf "%v" (index . "in_stock") }}{{ end }}
+  {{ $s := lower (strings.TrimSpace $raw) }}
+  {{ $isIn := and (ne $s "") (ne $s "0") (ne $s "false") (ne $s "нет") (ne $s "no") }}
+  {{ if $isIn }}{{ $inCount = add $inCount 1 }}{{ end }}
+{{ end }}
+{{ $outCount := sub $total $inCount }}
 
 <div class="layout-content-container flex flex-col max-w-[1280px] flex-1 mx-auto">
 
@@ -20,6 +37,7 @@
           Подборка гобеленовых ковров с топовыми аниме.
         </h2>
       </div>
+
       <a href="https://t.me/wa_gi_ch"
          target="_blank" rel="noopener"
          aria-label="Наш Telegram-канал"
@@ -27,7 +45,7 @@
                 h-10 px-4 rounded-2xl bg-red-600 text-white text-sm
                 font-medium italic tracking-wide
                 hover:bg-red-700 hover:shadow-md active:scale-[0.98] transition">
-        <!-- Telegram icon -->
+
         <svg aria-hidden="true" class="w-4 h-4 mr-2" viewBox="0 0 240 240" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
           <path d="M120 0C53.7 0 0 53.7 0 120s53.7 120 120 120 120-53.7 120-120S186.3 0 120 0zm56.6 83.5l-17.9 84.6c-1.3 6-4.9 7.5-10 4.7l-27.6-20.3-13.3 12.8c-1.5 1.5-2.8 2.8-5.7 2.8l2-28.7 52.3-47.3c2.3-2.1-.5-3.3-3.6-1.2l-64.6 40.7-27.8-8.7c-6-1.9-6.1-6-1.3-8.8l108.6-41.9c5.1-1.9 9.6 1.2 8 8.9z"/>
         </svg>
@@ -45,46 +63,212 @@
     </p>
   </section>
 
+  <!-- Фильтры -->
+  <section aria-label="Фильтры каталога" class="mt-8 px-4 sticky top-2 z-20">
+    <div class="rounded-2xl border border-gray-200 bg-white/95 backdrop-blur p-4 shadow-sm">
+      <div class="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+        <div class="flex-1">
+          <label for="catalog-filter-q" class="block text-sm font-semibold text-gray-900">Поиск</label>
+          <div class="mt-2 flex items-center gap-2">
+            <input id="catalog-filter-q"
+                   type="search"
+                   inputmode="search"
+                   placeholder="Например: Naruto, Berserk, Jujutsu..."
+                   class="w-full rounded-xl border-gray-200 bg-white px-3 py-2 text-sm focus:border-red-600 focus:ring-red-600" />
+            <button id="catalog-filter-clear"
+                    type="button"
+                    class="shrink-0 inline-flex items-center justify-center h-10 px-3 rounded-xl border border-gray-200 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 active:scale-[0.98] transition">
+              Сброс
+            </button>
+          </div>
+        </div>
+
+        <!-- Чипсы: на мобилке горизонтальный скролл -->
+        <div class="flex gap-2 overflow-x-auto [-webkit-overflow-scrolling:touch] md:overflow-visible md:flex-wrap">
+          <button type="button" data-stock-filter="all"
+                  class="inline-flex items-center justify-center h-10 px-4 rounded-full border border-red-600 bg-red-600 text-white text-sm font-semibold hover:shadow-sm active:scale-[0.98] transition whitespace-nowrap"
+                  aria-pressed="true">
+            Все
+          </button>
+          <button type="button" data-stock-filter="in"
+                  class="inline-flex items-center justify-center h-10 px-4 rounded-full border border-gray-200 bg-white text-gray-800 text-sm font-semibold hover:bg-gray-50 hover:shadow-sm active:scale-[0.98] transition whitespace-nowrap"
+                  aria-pressed="false">
+            В наличии
+          </button>
+          <button type="button" data-stock-filter="out"
+                  class="inline-flex items-center justify-center h-10 px-4 rounded-full border border-gray-200 bg-white text-gray-800 text-sm font-semibold hover:bg-gray-50 hover:shadow-sm active:scale-[0.98] transition whitespace-nowrap"
+                  aria-pressed="false">
+            Нет в наличии
+          </button>
+        </div>
+      </div>
+
+      <div class="mt-3 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between text-sm text-gray-600">
+        <p>
+          Показано: <span id="catalog-visible-count" class="font-semibold text-gray-900">0</span>
+          из <span id="catalog-total-count" class="font-semibold text-gray-900">{{ $total }}</span>
+        </p>
+
+        <div class="flex flex-wrap items-center gap-2">
+          <span class="inline-flex items-center gap-2 rounded-full bg-green-50 px-3 py-1 text-xs font-semibold text-green-700">
+            <span class="h-2 w-2 rounded-full bg-green-600"></span>
+            В наличии: {{ $inCount }}
+          </span>
+          <span class="inline-flex items-center gap-2 rounded-full bg-red-50 px-3 py-1 text-xs font-semibold text-red-700">
+            <span class="h-2 w-2 rounded-full bg-red-600"></span>
+            Нет: {{ $outCount }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- Каталог -->
   <section id="catalog">
     <h2 class="text-[#141414] text-[22px] font-bold tracking-[-0.015em] px-4 pb-3 pt-10">Каталог аниме-гобеленов</h2>
-    <div class="grid grid-cols-2 md:grid-cols-3 gap-6 px-4">
-      {{ range where .Site.RegularPages "Section" "tapestry" }}
+
+    <div id="catalog-grid" class="grid grid-cols-2 md:grid-cols-3 gap-6 px-4">
+      {{ range $pages }}
         {{ $base := .File.BaseFileName | lower }}
-        {{/* Выбираем нормальную или soldout-картинку в зависимости от остатков */}}
+
+        {{/* Сток из CSV */}}
+        {{ $raw := "" }}
+        {{ with index $map $base }}{{ $raw = printf "%v" (index . "in_stock") }}{{ end }}
+        {{ $s := lower (strings.TrimSpace $raw) }}
+        {{ $isIn := and (ne $s "") (ne $s "0") (ne $s "false") (ne $s "нет") (ne $s "no") }}
+
+        {{/* Картинка normal/soldout */}}
         {{ $normal := resources.Get (print "images/" $base ".jpg") }}
         {{ $sold   := resources.Get (print "images/" $base "___soldout.jpg") }}
-        {{ $instock := "0" }}
-        {{ with index $map $base }}
-          {{ $instock = printf "%v" (index . "in_stock") }}
-        {{ end }}
-        {{ $chosen := cond (ne $instock "0") $normal (or $sold $normal) }}
+        {{ $chosen := cond $isIn $normal (or $sold $normal) }}
 
-        <a href="{{ .RelPermalink }}" class="flex flex-col gap-2 rounded-xl overflow-hidden shadow hover:shadow-lg transition bg-white">
-          {{ with $chosen }}
-            {{ $resized := .Fit "400x500" }}
-            <div
-              class="w-full bg-center bg-no-repeat bg-cover aspect-[4/5]"
-              style='background-image: url("{{ $resized.RelPermalink }}");'>
-            </div>          
-		  {{ else }}
-            <div class="w-full bg-gray-200 flex items-center justify-center aspect-[4/5]">
-              <span class="text-gray-500 text-sm">⛔ Нет изображения</span>
-            </div>
-          {{ end }}
+        <a href="{{ .RelPermalink }}"
+           data-product-card="1"
+           data-instock="{{ cond $isIn "1" "0" }}"
+           data-search="{{ lower (printf "%s %s" .Title $base) }}"
+           class="flex flex-col gap-2 rounded-xl overflow-hidden shadow hover:shadow-lg transition bg-white">
+
+          <div class="relative">
+            {{ with $chosen }}
+              {{ $resized := .Fit "400x500" }}
+              <div class="w-full bg-center bg-no-repeat bg-cover aspect-[4/5]"
+                   style='background-image: url("{{ $resized.RelPermalink }}");'>
+              </div>
+            {{ else }}
+              <div class="w-full bg-gray-200 flex items-center justify-center aspect-[4/5]">
+                <span class="text-gray-500 text-sm">⛔ Нет изображения</span>
+              </div>
+            {{ end }}
+
+            {{ if $isIn }}
+              <span class="absolute top-2 left-2 inline-flex items-center gap-1 rounded-full bg-green-600/95 px-3 py-1 text-xs font-semibold text-white shadow">
+                ✓ В наличии
+              </span>
+            {{ else }}
+              <span class="absolute top-2 left-2 inline-flex items-center gap-1 rounded-full bg-red-600/95 px-3 py-1 text-xs font-semibold text-white shadow">
+                ⏳ Нет в наличии
+              </span>
+            {{ end }}
+          </div>
 
           <div class="p-3">
             <h3 class="text-[#141414] text-base font-semibold">{{ .Title }}</h3>
-            {{ with index $map $base }}
-              <p class="text-neutral-500 text-sm">💰 {{ .price }}₽</p>
-            {{ else }}
-              <p class="text-gray-400 text-sm">Цена недоступна</p>
-            {{ end }}
+
+            <div class="mt-2 flex items-center justify-between gap-2">
+              {{ with index $map $base }}
+                <p class="text-neutral-500 text-sm">💰 {{ .price }}₽</p>
+              {{ else }}
+                <p class="text-gray-400 text-sm">Цена недоступна</p>
+              {{ end }}
+
+              {{ if $isIn }}
+                <span class="text-xs font-semibold text-green-700 bg-green-50 border border-green-200 rounded-full px-2 py-1">
+                  можно забрать
+                </span>
+              {{ else }}
+                <span class="text-xs font-semibold text-red-700 bg-red-50 border border-red-200 rounded-full px-2 py-1">
+                  уточнить
+                </span>
+              {{ end }}
+            </div>
           </div>
         </a>
       {{ end }}
     </div>
   </section>
 
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      const cards = Array.from(document.querySelectorAll('[data-product-card="1"]'));
+      if (!cards.length) return;
+
+      const qInput = document.getElementById('catalog-filter-q');
+      const clearBtn = document.getElementById('catalog-filter-clear');
+      const countEl = document.getElementById('catalog-visible-count');
+      const totalEl = document.getElementById('catalog-total-count');
+      const chipBtns = Array.from(document.querySelectorAll('[data-stock-filter]'));
+
+      let mode = 'all'; // all | in | out
+
+      function setActiveChip() {
+        chipBtns.forEach((btn) => {
+          const active = (btn.dataset.stockFilter || 'all') === mode;
+          btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+
+          btn.classList.toggle('bg-red-600', active);
+          btn.classList.toggle('text-white', active);
+          btn.classList.toggle('border-red-600', active);
+
+          btn.classList.toggle('bg-white', !active);
+          btn.classList.toggle('text-gray-800', !active);
+          btn.classList.toggle('border-gray-200', !active);
+        });
+      }
+
+      function apply() {
+        const q = (qInput?.value || '').trim().toLowerCase();
+        let visible = 0;
+
+        cards.forEach((card) => {
+          const inStock = card.dataset.instock === '1';
+          const hay = (card.dataset.search || '').toLowerCase();
+
+          const matchText = !q || hay.includes(q);
+          const matchStock =
+            mode === 'all' ||
+            (mode === 'in' ? inStock : !inStock);
+
+          const show = matchText && matchStock;
+          card.classList.toggle('hidden', !show);
+          if (show) visible += 1;
+        });
+
+        if (countEl) countEl.textContent = String(visible);
+        if (totalEl) totalEl.textContent = String(cards.length);
+      }
+
+      chipBtns.forEach((btn) => {
+        btn.addEventListener('click', () => {
+          mode = btn.dataset.stockFilter || 'all';
+          setActiveChip();
+          apply();
+        });
+      });
+
+      qInput?.addEventListener('input', apply);
+
+      clearBtn?.addEventListener('click', () => {
+        if (qInput) qInput.value = '';
+        mode = 'all';
+        setActiveChip();
+        apply();
+      });
+
+      setActiveChip();
+      apply();
+    });
+  </script>
+
 </div>
+
 {{ end }}
