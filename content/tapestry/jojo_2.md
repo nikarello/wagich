@@ -1,5 +1,12 @@
 ---
 title: "Гобелен JoJo’s Bizarre Adventure — DIO vs JOJO"
+tags:
+  - "джоджо"
+  - "jojo's bizarre adventure"
+  - "jojo no kimyou na bouken"
+  - "дио"
+  - "dio"
+  - "jojo"
 date: 2025-05-31
 draft: false
 ---

@@ -1,5 +1,10 @@
 ---
 title: "Гобелен Bleach (Shonen Jump 2006)"
+tags:
+  - "блич"
+  - "bleach"
+  - "ичиго"
+  - "ichigo"
 date: 2025-05-31
 draft: false
 ---

@@ -1,5 +1,10 @@
 ---
 title: "Гобелен Blue Lock (Blue Lock — манга-обложка, Исаги и команда, яркий оранжевый)"
+tags:
+  - "блюлок"
+  - "blue lock"
+  - "исаги"
+  - "isagi"
 date: 2025-12-12
 draft: false
 ---

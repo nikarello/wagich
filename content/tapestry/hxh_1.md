@@ -1,5 +1,12 @@
 ---
 title: "Гобелен Hunter × Hunter (Гон и Киллуа)"
+tags:
+  - "хантер х хантер"
+  - "hunter x hunter"
+  - "гон"
+  - "gon"
+  - "киллуа"
+  - "killua"
 date: 2025-05-31
 draft: false
 ---

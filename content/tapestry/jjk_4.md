@@ -1,5 +1,12 @@
 ---
 title: "Гобелен Jujutsu Kaisen (Сукуна с черепом)"
+tags:
+  - "магическая битва"
+  - "jujutsu kaisen"
+  - "сукуна"
+  - "sukuna"
+  - "юдзи"
+  - "yuji itadori"
 date: 2025-05-31
 draft: false
 ---

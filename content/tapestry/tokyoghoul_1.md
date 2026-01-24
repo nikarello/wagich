@@ -1,5 +1,10 @@
 ---
 title: "Гобелен Tokyo Ghoul (Кэн Канэки — красный гнев и белые волосы)"
+tags:
+  - "токийский гуль"
+  - "tokyo ghoul"
+  - "канэки"
+  - "kaneki"
 date: 2025-12-12
 draft: false
 ---

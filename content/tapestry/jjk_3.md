@@ -1,5 +1,12 @@
 ---
 title: "Гобелен Jujutsu Kaisen (Кровь и проклятие)"
+tags:
+  - "магическая битва"
+  - "jujutsu kaisen"
+  - "годзё"
+  - "gojo"
+  - "юдзи"
+  - "yuji itadori"
 date: 2025-05-31
 draft: false
 ---

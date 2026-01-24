@@ -1,5 +1,13 @@
 ---
 title: "Гобелен My Hero Academia (Деку — Weekly Shonen Jump, зелёный вайб героев)"
+tags:
+  - "моя геройская академия"
+  - "my hero academia"
+  - "boku no hero academia"
+  - "деку"
+  - "deku"
+  - "идзуку мидория"
+  - "izuku midoriya"
 date: 2025-12-12
 draft: false
 ---

@@ -1,5 +1,10 @@
 ---
 title: "Гобелен Jujutsu Kaisen (Тодзи Фусигуро)"
+tags:
+  - "магическая битва"
+  - "jujutsu kaisen"
+  - "тодзи"
+  - "toji"
 date: 2025-05-31
 draft: false
 ---

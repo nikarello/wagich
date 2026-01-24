@@ -1,5 +1,10 @@
 ---
 title: "Гобелен Jujutsu Kaisen (Сатору Годзё)"
+tags:
+  - "магическая битва"
+  - "jujutsu kaisen"
+  - "годзё"
+  - "gojo"
 date: 2025-05-31
 draft: false
 ---

@@ -1,5 +1,9 @@
 ---
 title: "Гобелен Naruto (Пейн ч/б)"
+tags:
+  - "наруто"
+  - "naruto"
+  - "pain"
 date: 2025-05-31
 draft: false
 ---

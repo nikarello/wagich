@@ -1,5 +1,10 @@
 ---
 title: "Гобелен Cowboy Bebop (Спайк — прицел на зрителя)"
+tags:
+  - "ковбой бибоп"
+  - "cowboy bebop"
+  - "спайк"
+  - "spike spiegel"
 date: 2025-05-31
 draft: false
 ---

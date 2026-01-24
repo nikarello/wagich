@@ -1,5 +1,10 @@
 ---
 title: "Гобелен Berserk (Фемто в пламени)"
+tags:
+  - "берсерк"
+  - "berserk"
+  - "фемто"
+  - "femto"
 date: 2025-05-31
 draft: false
 ---

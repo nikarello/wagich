@@ -1,5 +1,14 @@
 ---
 title: "Гобелен JoJo’s Bizarre Adventure (Джайро Цеппели)"
+tags:
+  - "джоджо"
+  - "jojo's bizarre adventure"
+  - "jojo no kimyou na bouken"
+  - "джайро цеппели"
+  - "gyro zeppeli"
+  - "jojo"
+  - "джотаро"
+  - "jotaro"
 date: 2025-05-31
 draft: false
 ---

@@ -1,5 +1,12 @@
 ---
 title: "Гобелен Jujutsu Kaisen 0 (Юта и Итадори, премиум-арт)"
+tags:
+  - "магическая битва"
+  - "jujutsu kaisen"
+  - "юдзи"
+  - "yuji itadori"
+  - "юта"
+  - "yuta okkotsu"
 date: 2025-05-31
 draft: false
 ---

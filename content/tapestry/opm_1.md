@@ -1,5 +1,10 @@
 ---
 title: "Гобелен One Punch Man (Сайтама — обложка Shonen Jump, No.08, удар)"
+tags:
+  - "ванпанчмен"
+  - "one punch man"
+  - "сайтама"
+  - "saitama"
 date: 2025-12-12
 draft: false
 ---

@@ -1,5 +1,11 @@
 ---
 title: "Гобелен Fullmetal Alchemist (Эдвард Элрик — обложка Gangan, стальной кулак)"
+tags:
+  - "стальной алхимик"
+  - "fullmetal alchemist"
+  - "hagane no renkinjutsushi"
+  - "эдвард элрик"
+  - "edward elric"
 date: 2025-12-12
 draft: false
 ---

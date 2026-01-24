@@ -1,5 +1,11 @@
 ---
 title: "Гобелен Sailor Moon (Anime Style 2020)"
+tags:
+  - "сейлор мун"
+  - "sailor moon"
+  - "bishoujo senshi sailor moon"
+  - "усаги"
+  - "usagi tsukino"
 date: 2025-05-31
 draft: false
 ---

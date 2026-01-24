@@ -1,5 +1,10 @@
 ---
 title: "Гобелен Black Clover (Аста — обложка Weekly Shonen Jump)"
+tags:
+  - "чёрный клевер"
+  - "black clover"
+  - "аста"
+  - "asta"
 date: 2025-12-12
 draft: false
 ---

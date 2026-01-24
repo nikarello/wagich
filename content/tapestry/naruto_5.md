@@ -1,5 +1,13 @@
 ---
 title: "Гобелен Naruto (Итачи × Саске — обложка Jump Comics, клан Учиха)"
+tags:
+  - "наруто"
+  - "naruto"
+  - "итачи"
+  - "itachi"
+  - "саске"
+  - "sasuke"
+  - "Jump Comics"
 date: 2025-12-12
 draft: false
 ---

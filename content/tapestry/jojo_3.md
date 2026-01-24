@@ -1,5 +1,12 @@
 ---
 title: "Гобелен JoJo’s Bizarre Adventure (Джотаро и Джолин)"
+tags:
+  - "джоджо"
+  - "jojo's bizarre adventure"
+  - "jojo no kimyou na bouken"
+  - "jojo"
+  - "джотаро"
+  - "jotaro"
 date: 2025-05-31
 draft: false
 ---

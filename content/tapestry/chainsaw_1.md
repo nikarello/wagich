@@ -1,5 +1,12 @@
 ---
 title: "Гобелен Chainsaw Man (Power & Денджи)"
+tags:
+  - "человек-бензопила"
+  - "chainsaw man"
+  - "денджи"
+  - "denji"
+  - "пауэр"
+  - "power"
 date: 2025-05-31
 draft: false
 ---
