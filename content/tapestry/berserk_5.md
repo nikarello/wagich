@@ -1,5 +1,10 @@
 ---
 title: "Гобелен Berserk (Гатс — диагональ меча)"
+tags:
+  - "берсерк"
+  - "berserk"
+  - "гатс"
+  - "guts"
 date: 2025-05-31
 draft: false
 ---

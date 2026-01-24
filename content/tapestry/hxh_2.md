@@ -1,5 +1,16 @@
 ---
 title: "Гобелен Hunter x Hunter (HxH — Гон и Киллуа, Курапика и Леорио, яркий постер)"
+tags:
+  - "хантер х хантер"
+  - "hunter x hunter"
+  - "гон"
+  - "gon"
+  - "киллуа"
+  - "killua"
+  - "курапика"
+  - "kurapika"
+  - "леорио"
+  - "leorio"
 date: 2025-12-12
 draft: false
 ---

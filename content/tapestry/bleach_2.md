@@ -1,5 +1,12 @@
 ---
 title: "Гобелен Bleach (Ичиго и Рукия, Jump #45)"
+tags:
+  - "блич"
+  - "bleach"
+  - "ичиго"
+  - "ichigo"
+  - "рукия"
+  - "rukia"
 date: 2025-05-31
 draft: false
 ---

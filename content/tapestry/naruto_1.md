@@ -1,5 +1,12 @@
 ---
 title: "Гобелен Naruto (Итачи и ворон)"
+tags:
+  - "наруто"
+  - "naruto"
+  - "итачи"
+  - "itachi"
+  - "акацуки"
+  - "akatsuki"
 date: 2025-05-31
 draft: false
 ---

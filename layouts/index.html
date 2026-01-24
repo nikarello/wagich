@@ -12,29 +12,17 @@
 {{ $pages := where .Site.RegularPages "Section" "tapestry" }}
 {{ $total := len $pages }}
 
-<div class="layout-content-container flex flex-col max-w-[1280px] flex-1 mx-auto">
+<style>
+  /* 2 строки и обрезка — чтобы низ карточек (цена+стрелка) был на одном уровне */
+  .clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>
 
-  <style>
-    /* Чипсы фильтра: активный/неактивный — через aria-pressed (стабильно на мобиле) */
-    .catalog-chip {
-      -webkit-tap-highlight-color: transparent;
-      user-select: none;
-    }
-    .catalog-chip[aria-pressed="true"] {
-      background-color: #dc2626; /* red-600 */
-      border-color: #dc2626;
-      color: #ffffff;
-    }
-    .catalog-chip[aria-pressed="false"] {
-      background-color: #ffffff;
-      border-color: #e5e7eb; /* gray-200 */
-      color: #1f2937; /* gray-800 */
-    }
-    .catalog-chip:focus-visible {
-      outline: 2px solid rgba(220, 38, 38, 0.45);
-      outline-offset: 2px;
-    }
-  </style>
+<div class="layout-content-container flex flex-col max-w-[1280px] flex-1 mx-auto">
 
   <!-- Hero-секция -->
   <section class="@container @[480px]:p-4">
@@ -74,8 +62,8 @@
   </section>
 
   <!-- Фильтры -->
-  <section aria-label="Фильтры каталога" class="mt-8 px-4 sticky top-2 z-20">
-    <div class="rounded-2xl border border-gray-200 bg-white/95 backdrop-blur p-4 shadow-sm">
+  <section aria-label="Фильтры каталога" class="mt-8 px-4">
+    <div class="rounded-2xl border border-gray-200 bg-white/90 backdrop-blur p-4 shadow-sm">
       <div class="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
         <div class="flex-1">
           <label for="catalog-filter-q" class="block text-sm font-semibold text-gray-900">Поиск</label>
@@ -83,7 +71,7 @@
             <input id="catalog-filter-q"
                    type="search"
                    inputmode="search"
-                   placeholder="Например: Naruto, Berserk, Jujutsu..."
+                   placeholder="Например: berserk, берсерк, shingeki no kyojin..."
                    class="w-full rounded-xl border-gray-200 bg-white px-3 py-2 text-sm focus:border-red-600 focus:ring-red-600" />
             <button id="catalog-filter-clear"
                     type="button"
@@ -93,25 +81,23 @@
           </div>
         </div>
 
-        <!-- Чипсы: на мобилке горизонтальный скролл -->
-        <div class="flex gap-2 overflow-x-auto [-webkit-overflow-scrolling:touch] md:overflow-visible md:flex-wrap">
-          <button type="button"
-                  data-stock-filter="all"
-                  class="catalog-chip inline-flex items-center justify-center h-10 px-4 rounded-full border text-sm font-semibold hover:shadow-sm active:scale-[0.98] transition whitespace-nowrap"
+        {{/* ВАЖНО: все кнопки одного типа как "Все" */}}
+        <div class="flex flex-wrap gap-2">
+          <button type="button" data-stock-filter="all"
+                  class="stock-chip inline-flex items-center justify-center h-10 px-4 rounded-full border text-sm font-semibold hover:shadow-sm active:scale-[0.98] transition
+                         bg-red-600 text-white border-red-600"
                   aria-pressed="true">
             Все
           </button>
-
-          <button type="button"
-                  data-stock-filter="in"
-                  class="catalog-chip inline-flex items-center justify-center h-10 px-4 rounded-full border text-sm font-semibold hover:shadow-sm active:scale-[0.98] transition whitespace-nowrap"
+          <button type="button" data-stock-filter="in"
+                  class="stock-chip inline-flex items-center justify-center h-10 px-4 rounded-full border text-sm font-semibold hover:shadow-sm active:scale-[0.98] transition
+                         bg-white text-gray-800 border-gray-200"
                   aria-pressed="false">
             В наличии
           </button>
-
-          <button type="button"
-                  data-stock-filter="out"
-                  class="catalog-chip inline-flex items-center justify-center h-10 px-4 rounded-full border text-sm font-semibold hover:shadow-sm active:scale-[0.98] transition whitespace-nowrap"
+          <button type="button" data-stock-filter="out"
+                  class="stock-chip inline-flex items-center justify-center h-10 px-4 rounded-full border text-sm font-semibold hover:shadow-sm active:scale-[0.98] transition
+                         bg-white text-gray-800 border-gray-200"
                   aria-pressed="false">
             SOLD OUT
           </button>
@@ -139,51 +125,56 @@
         {{ $s := lower (strings.TrimSpace $raw) }}
         {{ $isIn := and (ne $s "") (ne $s "0") (ne $s "false") (ne $s "нет") (ne $s "no") }}
 
-        {{/* Картинка normal/soldout */}}
+        {{/* Выбираем нормальную или soldout-картинку */}}
         {{ $normal := resources.Get (print "images/" $base ".jpg") }}
         {{ $sold   := resources.Get (print "images/" $base "___soldout.jpg") }}
         {{ $chosen := cond $isIn $normal (or $sold $normal) }}
 
-        <!-- ВАЖНО: h-full + flex-col чтобы низ карточки выравнивался -->
+        {{/* === ТЕГИ В ПОИСК === */}}
+        {{ $tags := "" }}
+        {{ with .Params.tags }}
+          {{ $tags = delimit . " " }}
+        {{ end }}
+
         <a href="{{ .RelPermalink }}"
            data-product-card="1"
            data-instock="{{ cond $isIn "1" "0" }}"
-           data-search="{{ lower (printf "%s %s" .Title $base) }}"
-           class="h-full flex flex-col gap-2 rounded-xl overflow-hidden shadow hover:shadow-lg transition bg-white">
+           data-search="{{ lower (printf "%s %s %s" .Title $base $tags) }}"
+           class="group flex flex-col gap-2 rounded-xl overflow-hidden shadow hover:shadow-lg transition bg-white">
 
-          {{ with $chosen }}
-            {{ $resized := .Fit "400x500" }}
-            <div
-              class="w-full bg-center bg-no-repeat bg-cover aspect-[4/5]"
-              style='background-image: url("{{ $resized.RelPermalink }}");'>
-            </div>
-          {{ else }}
-            <div class="w-full bg-gray-200 flex items-center justify-center aspect-[4/5]">
-              <span class="text-gray-500 text-sm">⛔ Нет изображения</span>
-            </div>
-          {{ end }}
+          <div class="relative">
+            {{ with $chosen }}
+              {{ $resized := .Fit "400x500" }}
+              <div class="w-full bg-center bg-no-repeat bg-cover aspect-[4/5]"
+                   style='background-image: url("{{ $resized.RelPermalink }}");'>
+              </div>
+            {{ else }}
+              <div class="w-full bg-gray-200 flex items-center justify-center aspect-[4/5]">
+                <span class="text-gray-500 text-sm">⛔ Нет изображения</span>
+              </div>
+            {{ end }}
+          </div>
 
-          <!-- Контент: растягиваем, а нижнюю строку прижимаем вниз -->
+          {{/* Контент: делаем “низ” стабильным */}}
           <div class="p-3 flex flex-col flex-1">
-            <h3 class="text-[#141414] text-base font-semibold">
+            <h3 class="text-[#141414] text-base font-semibold leading-snug clamp-2">
               {{ .Title }}
             </h3>
 
-            <!-- Нижняя строка всегда внизу карточки -->
-            <div class="mt-auto pt-2 flex items-end justify-between gap-3">
+            <div class="mt-auto pt-2 flex items-center justify-between gap-2">
               {{ with index $map $base }}
                 <p class="text-neutral-500 text-sm">💰 {{ .price }}₽</p>
               {{ else }}
                 <p class="text-gray-400 text-sm">Цена недоступна</p>
               {{ end }}
 
-              <!-- Только стрелка -->
-              <span class="text-lg font-bold text-red-600 hover:text-red-700 transition leading-none">
+              {{/* “стрелочка”, чтобы было понятно что кликабельно */}}
+              <span aria-label="Перейти" class="inline-flex items-center justify-center h-9 w-9 rounded-full border border-gray-200 bg-white text-gray-800
+                           group-hover:bg-gray-50 group-hover:border-gray-300 transition">
                 →
               </span>
             </div>
           </div>
-
         </a>
       {{ end }}
     </div>
@@ -204,8 +195,18 @@
 
       function setActiveChip() {
         chipBtns.forEach((btn) => {
-          const active = (btn.dataset.stockFilter || 'all') === mode;
-          btn.setAttribute('aria-pressed', active ? 'true' : 'false');
+          const isActive = (btn.dataset.stockFilter || 'all') === mode;
+          btn.setAttribute('aria-pressed', isActive ? 'true' : 'false');
+
+          // Активная = красная
+          btn.classList.toggle('bg-red-600', isActive);
+          btn.classList.toggle('text-white', isActive);
+          btn.classList.toggle('border-red-600', isActive);
+
+          // Неактивная = белая
+          btn.classList.toggle('bg-white', !isActive);
+          btn.classList.toggle('text-gray-800', !isActive);
+          btn.classList.toggle('border-gray-200', !isActive);
         });
       }
 
@@ -254,5 +255,4 @@
   </script>
 
 </div>
-
 {{ end }}

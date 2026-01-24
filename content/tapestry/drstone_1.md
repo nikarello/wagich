@@ -1,5 +1,12 @@
 ---
 title: "Гобелен Dr. STONE (Сэнку — обложка Weekly Shonen Jump, научный шонен)"
+tags:
+  - "доктор стоун"
+  - "dr. stone"
+  - "сэнку"
+  - "senku"
+  - "сэнку исигами"
+  - "senku ishigami"
 date: 2025-12-12
 draft: false
 ---

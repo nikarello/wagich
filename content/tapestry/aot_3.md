@@ -1,5 +1,16 @@
 ---
 title: "Гобелен Attack on Titan (обложка журнала, Эрен и Леви)"
+tags:
+  - "атака титанов"
+  - "attack on titan"
+  - "shingeki no kyojin"
+  - "эрен"
+  - "eren"
+  - "леви"
+  - "levi"
+  - "микаса"
+  - "mikasa"
+  - "армин"
 date: 2025-05-31
 draft: false
 ---

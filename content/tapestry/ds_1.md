@@ -1,5 +1,13 @@
 ---
 title: "Гобелен Demon Slayer (журнальная обложка — Тандзиро и Команда)"
+tags:
+  - "клинок рассекающий демонов"
+  - "demon slayer"
+  - "kimetsu no yaiba"
+  - "тандзиро"
+  - "tanjiro"
+  - "нэзуко"
+  - "nezuko"
 date: 2025-05-31
 draft: false
 ---

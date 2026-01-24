@@ -1,5 +1,8 @@
 ---
 title: "Гобелен Vinland Saga (Торфин)"
+tags:
+  - "сага о винланде"
+  - "vinland saga"
 date: 2025-05-31
 draft: false
 ---

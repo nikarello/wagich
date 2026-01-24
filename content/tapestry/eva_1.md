@@ -1,5 +1,11 @@
 ---
 title: "Гобелен Evangelion (Аска и Ева)"
+tags:
+  - "евангелион"
+  - "evangelion"
+  - "shin seiki evangelion"
+  - "аска"
+  - "asuka"
 date: 2025-05-31
 draft: false
 ---

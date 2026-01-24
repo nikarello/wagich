@@ -1,5 +1,10 @@
 ---
 title: "Гобелен Bleach (Ичиго Куросаки — обложка Weekly Shonen Jump, меч и дух)"
+tags:
+  - "блич"
+  - "bleach"
+  - "ичиго"
+  - "ichigo"
 date: 2025-12-12
 draft: false
 ---

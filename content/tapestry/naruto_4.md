@@ -1,5 +1,11 @@
 ---
 title: "Гобелен Naruto (Наруто, Саске и Сакура)"
+tags:
+  - "наруто"
+  - "naruto"
+  - "саске"
+  - "sasuke"
+  - "sakura"
 date: 2025-05-31
 draft: false
 ---

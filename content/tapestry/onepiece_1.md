@@ -1,5 +1,14 @@
 ---
 title: "Гобелен One Piece (Луффи, Ло и Кид)"
+tags:
+  - "ван пис"
+  - "one piece"
+  - "луффи"
+  - "luffy"
+  - "трафальгар ло"
+  - "trafalgar law"
+  - "юстасс кид"
+  - "eustass kid"
 date: 2025-05-31
 draft: false
 ---

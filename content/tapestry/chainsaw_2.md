@@ -1,5 +1,10 @@
 ---
 title: "Гобелен Chainsaw Man (Денджи и Почита, старт)"
+tags:
+  - "человек-бензопила"
+  - "chainsaw man"
+  - "денджи"
+  - "denji"
 date: 2025-05-31
 draft: false
 ---

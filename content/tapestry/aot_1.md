@@ -1,5 +1,11 @@
 ---
 title: "Гобелен Attack on Titan (кошмар титанов — ч/б офорт)"
+tags:
+  - "атака титанов"
+  - "attack on titan"
+  - "shingeki no kyojin"
+  - "эрен"
+  - "eren"
 date: 2025-05-31
 draft: false
 ---

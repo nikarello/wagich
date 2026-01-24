@@ -1,5 +1,11 @@
 ---
 title: "Гобелен Attack on Titan (Дрожь Земли)"
+tags:
+  - "атака титанов"
+  - "attack on titan"
+  - "shingeki no kyojin"
+  - "армин"
+  - "armin"
 date: 2025-05-31
 draft: false
 ---

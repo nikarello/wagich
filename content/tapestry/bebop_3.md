@@ -1,5 +1,10 @@
 ---
 title: "Гобелен Cowboy Bebop (Спайк Шпигель — тёмный фон, яркий коллаж, джаз-вайб)"
+tags:
+  - "ковбой бибоп"
+  - "cowboy bebop"
+  - "спайк"
+  - "spike spiegel"
 date: 2025-12-12
 draft: false
 ---

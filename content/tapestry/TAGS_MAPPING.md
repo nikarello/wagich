@@ -1,0 +1,58 @@
+# Добавленные теги по файлам
+
+> Примечание: теги ≤ 10 на файл; romaji добавлял только если он отличается от английского названия.
+
+- **aot_1.md** — `атака титанов`, `attack on titan`, `shingeki no kyojin`, `эрен`, `eren`
+- **aot_2.md** — `атака титанов`, `attack on titan`, `shingeki no kyojin`, `армин`, `armin`
+- **aot_3.md** — `атака титанов`, `attack on titan`, `shingeki no kyojin`, `эрен`, `eren`, `леви`, `levi`, `микаса`, `mikasa`, `армин`
+- **aot_4.md** — `атака титанов`, `attack on titan`, `shingeki no kyojin`, `эрен`, `eren`
+- **bebop_1.md** — `ковбой бибоп`, `cowboy bebop`, `спайк`, `spike spiegel`
+- **bebop_2.md** — `ковбой бибоп`, `cowboy bebop`, `спайк`, `spike spiegel`
+- **bebop_3.md** — `ковбой бибоп`, `cowboy bebop`, `спайк`, `spike spiegel`
+- **berserk_1.md** — `берсерк`, `berserk`
+- **berserk_2.md** — `берсерк`, `berserk`, `гатс`, `guts`
+- **berserk_3.md** — `берсерк`, `berserk`, `гатс`, `guts`
+- **berserk_4.md** — `берсерк`, `berserk`, `фемто`, `femto`
+- **berserk_5.md** — `берсерк`, `berserk`, `гатс`, `guts`
+- **blackclover_1.md** — `чёрный клевер`, `black clover`, `аста`, `asta`
+- **blackclover_2.md** — `чёрный клевер`, `black clover`, `аста`, `asta`
+- **bleach_1.md** — `блич`, `bleach`, `ичиго`, `ichigo`
+- **bleach_2.md** — `блич`, `bleach`, `ичиго`, `ichigo`, `рукия`, `rukia`
+- **bleach_3.md** — `блич`, `bleach`, `ичиго`, `ichigo`
+- **chainsaw_1.md** — `человек-бензопила`, `chainsaw man`, `денджи`, `denji`, `пауэр`, `power`
+- **chainsaw_2.md** — `человек-бензопила`, `chainsaw man`, `денджи`, `denji`
+- **deathnote_1.md** — `блюлок`, `blue lock`, `исаги`, `isagi`
+- **deathnote_2.md** — `тетрадь смерти`, `death note`, `desu noto`, `лайт ягами`, `light yagami`, `эль лоулайет`, `l lawliet`, `рюк`, `ryuk`, `миса амане`
+- **dragon_ball_1.md** — `драконий жемчуг`, `dragon ball`, `гоку`, `goku`
+- **drstone_1.md** — `доктор стоун`, `dr. stone`, `сэнку`, `senku`, `сэнку исигами`, `senku ishigami`
+- **ds_1.md** — `клинок рассекающий демонов`, `demon slayer`, `kimetsu no yaiba`, `тандзиро`, `tanjiro`, `нэзуко`, `nezuko`
+- **ds_2.md** — `клинок рассекающий демонов`, `demon slayer`, `kimetsu no yaiba`, `кокушибо`, `kokushibo`, `тандзиро`, `tanjiro`, `нэзуко`, `nezuko`
+- **eva_1.md** — `евангелион`, `evangelion`, `shin seiki evangelion`, `аска`, `asuka`
+- **fma_1.md** — `стальной алхимик`, `fullmetal alchemist`, `hagane no renkinjutsushi`, `эдвард элрик`, `edward elric`
+- **hxh_1.md** — `хантер х хантер`, `hunter x hunter`, `гон`, `gon`, `киллуа`, `killua`
+- **hxh_2.md** — `хантер х хантер`, `hunter x hunter`, `гон`, `gon`, `киллуа`, `killua`, `курапика`, `kurapika`, `леорио`, `leorio`
+- **jjk_2.md** — `магическая битва`, `jujutsu kaisen`, `годзё`, `gojo`
+- **jjk_3.md** — `магическая битва`, `jujutsu kaisen`, `годзё`, `gojo`, `юдзи`, `yuji itadori`
+- **jjk_4.md** — `магическая битва`, `jujutsu kaisen`, `сукуна`, `sukuna`, `юдзи`, `yuji itadori`
+- **jjk_5.md** — `магическая битва`, `jujutsu kaisen`, `тодзи`, `toji`
+- **jjk_6.md** — `магическая битва`, `jujutsu kaisen`, `юдзи`, `yuji itadori`, `юта`, `yuta okkotsu`
+- **jjk_7.md** — `магическая битва`, `jujutsu kaisen`, `годзё`, `gojo`
+- **jojo_2.md** — `джоджо`, `jojo's bizarre adventure`, `jojo no kimyou na bouken`, `дио`, `dio`, `jojo`
+- **jojo_3.md** — `джоджо`, `jojo's bizarre adventure`, `jojo no kimyou na bouken`, `jojo`, `джотаро`, `jotaro`
+- **jojo_4.md** — `джоджо`, `jojo's bizarre adventure`, `jojo no kimyou na bouken`, `джайро цеппели`, `gyro zeppeli`, `jojo`, `джотаро`, `jotaro`
+- **mha_1.md** — `моя геройская академия`, `my hero academia`, `boku no hero academia`, `деку`, `deku`, `идзуку мидория`, `izuku midoriya`
+- **naruto_1.md** — `наруто`, `naruto`, `итачи`, `itachi`, `акацуки`, `akatsuki`
+- **naruto_2.md** — `наруто`, `naruto`, `саске`, `sasuke`
+- **naruto_3.md** — `наруто`, `naruto`
+- **naruto_4.md** — `наруто`, `naruto`, `саске`, `sasuke`
+- **naruto_5.md** — `наруто`, `naruto`, `итачи`, `itachi`, `саске`, `sasuke`
+- **naruto_6.md** — `наруто`, `naruto`, `итачи`, `itachi`, `саске`, `sasuke`
+- **naruto_7.md** — `наруто`, `naruto`, `акацуки`, `akatsuki`
+- **onepiece_1.md** — `ван пис`, `one piece`, `луффи`, `luffy`, `трафальгар ло`, `trafalgar law`, `юстасс кид`, `eustass kid`
+- **onepiece_2.md** — `ван пис`, `one piece`, `луффи`, `luffy`, `зоро`, `zoro`
+- **onepiece_4.md** — `ван пис`, `one piece`, `луффи`, `luffy`
+- **opm_1.md** — `ванпанчмен`, `one punch man`, `сайтама`, `saitama`
+- **sailormoon_1.md** — `сейлор мун`, `sailor moon`, `bishoujo senshi sailor moon`, `усаги`, `usagi tsukino`
+- **tokyoghoul_1.md** — `токийский гуль`, `tokyo ghoul`, `канэки`, `kaneki`
+- **vagabond_1.md** — `бродяга`, `vagabond`
+- **vinland_1.md** — `сага о винланде`, `vinland saga`

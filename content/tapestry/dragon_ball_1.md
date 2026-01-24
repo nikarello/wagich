@@ -1,5 +1,10 @@
 ---
 title: "Гобелен Dragon Ball (Гоку КАМЕХАМЕХА)"
+tags:
+  - "драконий жемчуг"
+  - "dragon ball"
+  - "гоку"
+  - "goku"
 date: 2025-05-31
 draft: false
 ---

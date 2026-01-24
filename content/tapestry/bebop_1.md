@@ -1,5 +1,10 @@
 ---
 title: "Гобелен Cowboy Bebop (Newtype Year Book 2000 — ретро-обложка)"
+tags:
+  - "ковбой бибоп"
+  - "cowboy bebop"
+  - "спайк"
+  - "spike spiegel"
 date: 2025-05-31
 draft: false
 ---

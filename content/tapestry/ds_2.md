@@ -1,5 +1,15 @@
 ---
 title: "Гобелен Demon Slayer (Кокушибо — взмах клинка)"
+tags:
+  - "клинок рассекающий демонов"
+  - "demon slayer"
+  - "kimetsu no yaiba"
+  - "кокушибо"
+  - "kokushibo"
+  - "тандзиро"
+  - "tanjiro"
+  - "нэзуко"
+  - "nezuko"
 date: 2025-05-31
 draft: false
 ---
