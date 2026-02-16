@@ -10,11 +10,12 @@ jobs:
       contents: write
 
     steps:
-      - name: 📥 Checkout (main)
+      - name: 📥 Checkout (main) with PAT
         uses: actions/checkout@v4
         with:
           ref: main
           fetch-depth: 0
+          token: ${{ secrets.GH_PAT }}
 
       - name: ⬇️ Download CSV (Google Sheets export)
         env:
@@ -33,7 +34,6 @@ jobs:
           # If we got HTML instead of CSV — stop and do not commit
           if head -n 5 assets/products.csv | grep -qiE '<!doctype|<html'; then
             echo "ERROR: Downloaded HTML instead of CSV."
-            echo "Make the sheet public/published and check GSHEET_ID/GSHEET_GID."
             head -n 30 assets/products.csv
             exit 1
           fi
