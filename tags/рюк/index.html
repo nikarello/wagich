@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Рюк</title>
+
+    
+    <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,container-queries"></script>
+
+    
+    <script src="https://unpkg.com/panzoom@4.4.2/dist/panzoom.min.js"></script>
+
+	
+	<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+	<meta http-equiv="Pragma" content="no-cache">
+	<meta http-equiv="Expires" content="0">
+
+
+    
+    <link
+      href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;700;800&family=Noto+Sans:wght@400;500;700;900&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      body {
+        font-family: "Plus Jakarta Sans", "Noto Sans", sans-serif;
+      }
+
+      .product-content img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+        margin: 1rem 0;
+        border-radius: 8px;
+      }
+
+      .product-content table {
+        width: 100%;
+        border-collapse: collapse;
+        margin: 1rem 0;
+      }
+
+      .product-content th,
+      .product-content td {
+        border: 1px solid #ccc;
+        padding: 0.5rem;
+      }
+
+      .product-content ul,
+      .product-content ol {
+        margin-left: 1.5rem;
+        padding-left: 1rem;
+      }
+
+      .product-content code {
+        background-color: #f2f2f2;
+        padding: 0.2rem 0.4rem;
+        border-radius: 4px;
+        font-family: monospace;
+      }
+	  
+		.cursor-zoom-in {
+		  cursor: zoom-in;
+		}
+		.cursor-zoom-out {
+		  cursor: zoom-out;
+		}
+		#lightbox {
+		  display: none;
+		}
+		#lightbox.show {
+		  display: flex;
+		}
+		#zoom-target {
+		  cursor: zoom-in;
+		}
+
+		#lightbox-img {
+		  transform: scale(0.95);
+		  opacity: 0;
+		}
+
+
+		#lightbox-img {
+		  transition: transform 0.3s ease, opacity 0.3s ease;
+		}
+		#lightbox.show #lightbox-img {
+		  transform: scale(1);
+		  opacity: 1;
+		}
+
+    </style>
+	
+	<link rel="icon" href="../../favicon.ico" type="image/x-icon" />
+
+  </head>
+
+	<body class="text-[#141414] min-h-screen bg-center" style='background-image: url("https://wagich.ru/images/wallpaper.jpg"); background-repeat: repeat; background-size: auto;'>
+
+
+    <div class="max-w-[1280px] mx-auto bg-white/100 min-h-screen rounded-[20px] shadow-md flex flex-col mt-8 mb-8 p-1">
+
+	<header class="w-full border-b border-gray-200 px-6 py-4 flex justify-center items-center gap-3">
+	  <a href="../../" class="flex items-center gap-3 text-lg font-bold text-gray-900 hover:text-red-600 transition-colors duration-200">
+		<img src="../../images/logo.jpg" alt="WAGICH logo" class="w-10 h-10 object-contain" />
+		WAGICH. – Anime Tapestries
+	  </a>
+	</header>
+
+
+
+      <main class="flex-1 px-6 py-8">
+        
+<section class="px-4 py-10">
+
+  <h1 class="text-3xl font-bold text-center text-gray-900 mb-8">
+    Рюк
+  </h1>
+
+  
+    <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6">
+      
+
+        
+        
+        
+          
+        
+
+        
+        
+          
+        
+
+        <article class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all">
+          <a href="../../tapestry/deathnote_2/">
+            
+              <img src="../../images/deathnote_2.jpg" alt="Гобелен Death Note (Лайт Ягами × L × Миса — постер-коллаж, красные глаза Рюка)" class="w-full h-48 object-cover" />
+            
+          </a>
+
+          <div class="p-4">
+            <h2 class="text-lg font-semibold text-gray-800 mb-1">
+              <a href="../../tapestry/deathnote_2/">Гобелен Death Note (Лайт Ягами × L × Миса — постер-коллаж, красные глаза Рюка)</a>у меня пока нет
+            </h2>
+
+            <p class="text-sm text-gray-600 mb-2">💰 3600₽</p>
+
+            <a href="../../tapestry/deathnote_2/" class="text-blue-600 hover:underline text-sm">Подробнее →</a>
+          </div>
+        </article>
+
+      
+
+        
+        
+        
+          
+        
+
+        
+        
+          
+        
+
+        <article class="bg-white rounded-xl shadow-md overflow-hidden hover:shadow-lg transition-all">
+          <a href="../../tapestry/deathnote_1/">
+            
+              <img src="../../images/deathnote_1.jpg" alt="Гобелен Death Note (Тетрадь смерти — обложка Weekly Shonen Jump, Light Yagami, манга-стиль)" class="w-full h-48 object-cover" />
+            
+          </a>
+
+          <div class="p-4">
+            <h2 class="text-lg font-semibold text-gray-800 mb-1">
+              <a href="../../tapestry/deathnote_1/">Гобелен Death Note (Тетрадь смерти — обложка Weekly Shonen Jump, Light Yagami, манга-стиль)</a>у меня пока нет
+            </h2>
+
+            <p class="text-sm text-gray-600 mb-2">💰 3600₽</p>
+
+            <a href="../../tapestry/deathnote_1/" class="text-blue-600 hover:underline text-sm">Подробнее →</a>
+          </div>
+        </article>
+
+      
+    </div>
+  
+
+</section>
+
+      </main>
+
+      <footer class="border-t border-gray-200 py-6 text-center text-sm text-gray-500">
+        © 2025 WAGICH. Все права защищены.
+      </footer>
+
+    </div>
+
+    
+	<script>
+	  document.addEventListener('DOMContentLoaded', () => {
+		const container = document.getElementById('zoom-container');
+		if (!container) return;
+
+		const panzoom = Panzoom(container, {
+		  maxScale: 3,
+		  minScale: 1,
+		  startScale: 1,
+		  contain: 'outside',
+		  animate: true,
+		  duration: 200,
+		});
+
+		container.addEventListener('wheel', panzoom.zoomWithWheel);
+
+		let isZoomed = false;
+		container.addEventListener('click', () => {
+		  if (isZoomed) {
+			panzoom.zoomTo(0, 0, 1);
+			container.classList.remove('cursor-zoom-out');
+			container.classList.add('cursor-zoom-in');
+		  } else {
+			panzoom.zoomTo(0, 0, 2);
+			container.classList.remove('cursor-zoom-in');
+			container.classList.add('cursor-zoom-out');
+		  }
+		  isZoomed = !isZoomed;
+		});
+
+		container.classList.add('cursor-zoom-in');
+	  });
+	</script>
+
+	<script>
+	  document.addEventListener('DOMContentLoaded', () => {
+		const thumb = document.getElementById('zoom-target');
+		const overlay = document.getElementById('lightbox');
+		const overlayImg = document.getElementById('lightbox-img');
+		const closeBtn = document.getElementById('lightbox-close');
+
+		if (thumb && overlay && overlayImg && closeBtn) {
+		  thumb.addEventListener('click', () => {
+			overlayImg.src = thumb.src;
+			overlay.classList.add('show');
+			overlayImg.classList.add('cursor-zoom-out');
+		  });
+
+		  closeBtn.addEventListener('click', () => {
+			overlay.classList.remove('show');
+		  });
+
+		  overlay.addEventListener('click', (e) => {
+			if (e.target === overlay) overlay.classList.remove('show');
+		  });
+
+		  overlayImg.addEventListener('click', () => {
+			overlay.classList.remove('show');
+		  });
+		}
+	  });
+	</script>
+
+
+
+
+  </body>
+</html>
