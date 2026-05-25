@@ -44,9 +44,11 @@
 
   <header class="overflow-hidden rounded-xl bg-gray-900 shadow">
     {{ with resources.Get .Params.banner }}
-      {{ $banner := .Fill "1440x480 Center" }}
-      <div class="min-h-[260px] bg-cover bg-center flex items-end" style='background-image: linear-gradient(rgba(0,0,0,.12), rgba(0,0,0,.62)), url("{{ $banner.RelPermalink }}");'>
-        <div class="p-6 md:p-8 max-w-3xl">
+      {{ $banner := .Fit "1440x480" }}
+      <div class="relative min-h-[260px]">
+        <img src="{{ $banner.RelPermalink }}" alt="{{ $.Title }}" class="absolute inset-0 h-full w-full object-cover object-top" />
+        <div class="absolute inset-0 bg-gradient-to-b from-black/10 to-black/65"></div>
+        <div class="relative min-h-[260px] flex items-end p-6 md:p-8 max-w-3xl">
           <h1 class="text-3xl md:text-5xl font-black text-white leading-tight">{{ $.Params.h1 }}</h1>
         </div>
       </div>
@@ -57,7 +59,7 @@
     {{ end }}
   </header>
 
-  <section class="mt-8 max-w-4xl">
+  <section class="mt-8">
     <div class="tag-intro rounded-xl border border-gray-200 bg-white p-5 md:p-6 text-gray-700 leading-relaxed shadow-sm">
       {{ .Content }}
     </div>
