@@ -1,0 +1,117 @@
+{{ define "main" }}
+{{ $slug := .Params.public_slug | default .File.BaseFileName }}
+
+{{ $productCsv := resources.Get "products.csv" | transform.Unmarshal }}
+{{ $stockMap := dict }}
+{{ range $productCsv }}
+  {{ if ge (len .) 4 }}
+    {{ $key := lower (printf "%v" (index . 1)) }}
+    {{ $stockMap = merge $stockMap (dict $key (dict "price" (index . 2) "in_stock" (index . 3))) }}
+  {{ end }}
+{{ end }}
+
+{{ $linksCsv := resources.Get "public_tag_products.csv" | transform.Unmarshal }}
+{{ $productLinks := slice }}
+{{ range $linksCsv }}
+  {{ if and (ge (len .) 3) (eq (index . 0) $slug) }}
+    {{ $productLinks = $productLinks | append (dict "slug" (index . 1) "sort" (int (index . 2))) }}
+  {{ end }}
+{{ end }}
+
+<style>
+  .tag-intro p {
+    margin-bottom: 1rem;
+  }
+
+  .tag-intro p:last-child {
+    margin-bottom: 0;
+  }
+
+  .tag-intro p:first-child {
+    color: #111827;
+    font-size: 1.125rem;
+    font-weight: 600;
+    line-height: 1.75rem;
+  }
+</style>
+
+<article class="max-w-6xl mx-auto px-4 py-8">
+  <nav class="mb-5 text-sm text-gray-500">
+    <a href="{{ "/" | relURL }}" class="hover:text-red-600">Каталог</a>
+    <span class="mx-2">/</span>
+    <a href="{{ "/tags/" | relURL }}" class="hover:text-red-600">Подборки</a>
+  </nav>
+
+  <header class="overflow-hidden rounded-xl bg-gray-900 shadow">
+    {{ with resources.Get .Params.banner }}
+      {{ $banner := .Fill "1440x480 Center" }}
+      <div class="min-h-[260px] bg-cover bg-center flex items-end" style='background-image: linear-gradient(rgba(0,0,0,.12), rgba(0,0,0,.62)), url("{{ $banner.RelPermalink }}");'>
+        <div class="p-6 md:p-8 max-w-3xl">
+          <h1 class="text-3xl md:text-5xl font-black text-white leading-tight">{{ $.Params.h1 }}</h1>
+        </div>
+      </div>
+    {{ else }}
+      <div class="min-h-[220px] flex items-end bg-gray-800 p-6 md:p-8">
+        <h1 class="text-3xl md:text-5xl font-black text-white leading-tight">{{ .Params.h1 }}</h1>
+      </div>
+    {{ end }}
+  </header>
+
+  <section class="mt-8 max-w-4xl">
+    <div class="tag-intro rounded-xl border border-gray-200 bg-white p-5 md:p-6 text-gray-700 leading-relaxed shadow-sm">
+      {{ .Content }}
+    </div>
+  </section>
+
+  <section class="mt-10">
+    <div class="flex items-end justify-between gap-4 mb-5">
+      <h2 class="text-2xl font-bold text-gray-900">Товары в подборке</h2>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {{ range sort $productLinks "sort" }}
+        {{ $productSlug := .slug }}
+        {{ with $.Site.GetPage (printf "/tapestry/%s" $productSlug) }}
+          {{ $productTitle := .Title }}
+          {{ $base := .File.BaseFileName | lower }}
+          {{ $raw := "" }}
+          {{ with index $stockMap $base }}{{ $raw = printf "%v" (index . "in_stock") }}{{ end }}
+          {{ $stock := lower (strings.TrimSpace $raw) }}
+          {{ $isIn := and (ne $stock "") (ne $stock "0") (ne $stock "false") (ne $stock "нет") (ne $stock "no") }}
+          {{ $normal := resources.Get (print "images/" $base ".jpg") }}
+          {{ $sold := resources.Get (print "images/" $base "___soldout.jpg") }}
+          {{ $chosen := cond $isIn $normal (or $sold $normal) }}
+
+          <a href="{{ .RelPermalink }}" class="group flex flex-col overflow-hidden rounded-xl bg-white shadow hover:shadow-lg transition">
+            {{ with $chosen }}
+              {{ $image := .Fit "400x500" }}
+              <img src="{{ $image.RelPermalink }}" alt="{{ $productTitle }}" class="aspect-[4/5] w-full object-cover" loading="lazy" />
+            {{ else }}
+              <div class="aspect-[4/5] w-full bg-gray-200 flex items-center justify-center text-gray-500 text-sm">Нет изображения</div>
+            {{ end }}
+
+            <div class="p-4 flex flex-col flex-1">
+              <h3 class="text-base font-semibold leading-snug text-gray-900">{{ .Title }}</h3>
+              <div class="mt-auto pt-3 flex items-center justify-between gap-3">
+                {{ with index $stockMap $base }}
+                  <span class="text-sm text-gray-600">{{ .price }} ₽</span>
+                {{ else }}
+                  <span class="text-sm text-gray-400">Цена недоступна</span>
+                {{ end }}
+                <span class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 text-gray-800 group-hover:bg-gray-50">→</span>
+              </div>
+            </div>
+          </a>
+        {{ end }}
+      {{ end }}
+    </div>
+
+    <div class="mt-8 text-center">
+      <a href="{{ "/" | relURL }}#catalog"
+         class="inline-flex items-center justify-center rounded-xl bg-red-600 px-5 py-3 text-sm font-bold text-white hover:bg-red-700 transition">
+        Смотреть весь каталог
+      </a>
+    </div>
+  </section>
+</article>
+{{ end }}

@@ -2,5 +2,7 @@ baseURL = "https://wagich.ru/"
 relativeURLs = true
 canonifyURLs = true
 
+disableKinds = ["taxonomy", "term"]
+
 languageCode = 'ru-ru'
 title = 'WAGICH — Аниме-гобелены'

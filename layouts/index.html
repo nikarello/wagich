@@ -12,6 +12,7 @@
 {{ $pages := where .Site.RegularPages "Section" "tapestry" }}
 {{ $total := len $pages }}
 {{ $hero := resources.Get "images/hero.jpg" }}
+{{ $publicTags := resources.Get "public_tags.csv" | transform.Unmarshal }}
 
 <style>
   /* 2 строки и обрезка — чтобы низ карточек (цена+стрелка) был на одном уровне */
@@ -60,6 +61,40 @@
       <br/>
       Все гобелены выполнены в высоком качестве, размер — <strong>160×130 см</strong>, материал — <strong>70% полиэстер и 30% хлопок</strong>.
     </p>
+  </section>
+
+  <section class="mt-8 px-4">
+    <div class="mb-4">
+      <h2 class="text-[#141414] text-[22px] font-bold tracking-[-0.015em]">Подборки по аниме</h2>
+    </div>
+
+    <div class="grid grid-flow-col auto-cols-[minmax(220px,78%)] sm:auto-cols-[260px] lg:auto-cols-[280px] gap-4 overflow-x-auto overscroll-x-contain snap-x snap-mandatory pb-3">
+      {{ range after 1 $publicTags }}
+        {{ if and (ge (len .) 13) (ne (index . 0) "public_slug") (eq (lower (index . 11)) "true") }}
+          {{ $slug := index . 0 }}
+          {{ $title := index . 1 }}
+          {{ $banner := index . 2 }}
+          <a href="{{ printf "/tags/%s/" $slug | relURL }}" class="group snap-start overflow-hidden rounded-xl bg-white shadow hover:shadow-lg transition">
+            {{ with resources.Get $banner }}
+              {{ $image := .Fill "420x140 Center" }}
+              <img src="{{ $image.RelPermalink }}" alt="{{ $title }}" class="h-28 w-full object-cover transition duration-200 group-hover:scale-[1.02]" loading="lazy" />
+            {{ else }}
+              <div class="h-28 w-full bg-gray-200"></div>
+            {{ end }}
+            <div class="p-3">
+              <h3 class="text-sm font-bold text-gray-900 leading-snug">{{ $title }}</h3>
+            </div>
+          </a>
+        {{ end }}
+      {{ end }}
+    </div>
+
+    <div class="mt-4 text-center">
+      <a href="{{ "/tags/" | relURL }}"
+         class="inline-flex items-center justify-center rounded-xl border border-gray-200 bg-white px-5 py-3 text-sm font-bold text-gray-900 hover:bg-gray-50 transition">
+        Смотреть все подборки
+      </a>
+    </div>
   </section>
 
   <!-- Фильтры -->

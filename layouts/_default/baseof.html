@@ -3,7 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{{ .Title }}</title>
+    {{ $pageTitle := cond (isset .Params "meta_title") .Params.meta_title .Title }}
+    {{ $pageDescription := cond (isset .Params "meta_description") .Params.meta_description "" }}
+    <title>{{ $pageTitle }}</title>
+    {{ with $pageDescription }}<meta name="description" content="{{ . }}" />{{ end }}
+    <link rel="canonical" href="{{ .Permalink }}" />
+    {{ if eq .Params.indexable false }}<meta name="robots" content="noindex, follow" />{{ end }}
 
     <!-- Tailwind CDN -->
     <script src="https://cdn.tailwindcss.com?plugins=forms,typography,aspect-ratio,container-queries"></script>
@@ -119,7 +124,7 @@
       </main>
 
       <footer class="border-t border-gray-200 py-6 text-center text-sm text-gray-500">
-        © 2025 WAGICH. Все права защищены.
+        © 2026 WAGICH. Все права защищены.
       </footer>
 
     </div>

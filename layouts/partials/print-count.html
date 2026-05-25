@@ -1,0 +1,10 @@
+{{ $count := int . }}
+{{ $mod100 := mod $count 100 }}
+{{ $mod10 := mod $count 10 }}
+{{ $word := "принтов" }}
+{{ if and (eq $mod10 1) (ne $mod100 11) }}
+  {{ $word = "принт" }}
+{{ else if and (ge $mod10 2) (le $mod10 4) (not (and (ge $mod100 12) (le $mod100 14))) }}
+  {{ $word = "принта" }}
+{{ end }}
+{{ return (printf "%d %s" $count $word) }}

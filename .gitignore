@@ -4,3 +4,6 @@ resources/
 .hugo-*-build/
 .hugo-local-build/
 .hugo-preflight-build/
+tag-banners-candidates*/
+tag-banners-selected/
+seo-input/

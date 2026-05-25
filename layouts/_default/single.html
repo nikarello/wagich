@@ -8,8 +8,27 @@
   {{ $map = merge $map (dict $key (dict "price" (index . 2) "in_stock" (index . 3))) }}
 {{ end }}
 
+{{ $publicTagsCsv := resources.Get "public_tags.csv" | transform.Unmarshal }}
+{{ $publicTagTitles := dict }}
+{{ range $publicTagsCsv }}
+  {{ if and (ge (len .) 2) (ne (index . 0) "public_slug") }}
+    {{ $publicTagTitles = merge $publicTagTitles (dict (index . 0) (index . 1)) }}
+  {{ end }}
+{{ end }}
+
+{{ $publicTagProductsCsv := resources.Get "public_tag_products.csv" | transform.Unmarshal }}
+
 <section class="max-w-5xl mx-auto px-4 py-10">
   {{ $base := lower .File.BaseFileName }}
+  {{ $productPublicTags := slice }}
+  {{ range $publicTagProductsCsv }}
+    {{ if and (ge (len .) 2) (eq (index . 1) $base) }}
+      {{ $tagSlug := index . 0 }}
+      {{ if not (in $productPublicTags $tagSlug) }}
+        {{ $productPublicTags = $productPublicTags | append $tagSlug }}
+      {{ end }}
+    {{ end }}
+  {{ end }}
   {{ $img := "" }}
   {{ with resources.Get (print "images/" $base ".jpg") }}
     {{ $img = .RelPermalink }}
@@ -56,6 +75,21 @@
         <p class="text-red-500 text-sm">Цена и наличие временно недоступны</p>
       {{ end }}
 
+      {{ if gt (len $productPublicTags) 0 }}
+        <div class="rounded-xl border border-gray-200 bg-gray-50 p-4">
+          <p class="text-sm font-semibold text-gray-900 mb-3">Больше по тегу</p>
+          <div class="flex flex-wrap gap-2">
+            {{ range $productPublicTags }}
+              {{ $tagTitle := index $publicTagTitles . | default . }}
+              <a href="{{ printf "/tags/%s/" . | relURL }}"
+                 class="inline-flex items-center rounded-full border border-red-100 bg-white px-3 py-1.5 text-sm font-semibold text-red-700 hover:border-red-200 hover:bg-red-50 transition">
+                {{ $tagTitle }}
+              </a>
+            {{ end }}
+          </div>
+        </div>
+      {{ end }}
+
       <a href="https://t.me/wagich_admin" target="_blank"
          class="mt-4 bg-black text-white text-sm font-bold px-5 py-2 rounded-lg hover:bg-gray-800 transition">
         ✉️ Написать в Telegram
@@ -97,6 +131,13 @@
         </div>
       </a>
     {{ end }}
+  </div>
+
+  <div class="mt-8 text-center">
+    <a href="{{ "/" | relURL }}#catalog"
+       class="inline-flex items-center justify-center rounded-xl bg-red-600 px-5 py-3 text-sm font-bold text-white hover:bg-red-700 transition">
+      Смотреть весь каталог
+    </a>
   </div>
 </section>
 
