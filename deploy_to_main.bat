@@ -1,90 +1,111 @@
 @echo off
 setlocal enabledelayedexpansion
-title Deploy to origin/main (force replace)
+cd /d "%~dp0"
 
-:: ===== SETTINGS =====
-set "REPO_URL=https://github.com/nikarello/wagich.git"
 set "BRANCH=main"
-set "COMMIT_MSG=Full replace of main with current local site code"
-set "MAKE_REMOTE_BACKUP=1"   :: 1 - create a backup tag of current origin/main, 0 - skip
+set "DEFAULT_COMMIT_MSG=site: update local sources"
 
-:: ===== Check Git availability =====
+if "%~1"=="" (
+  set "COMMIT_MSG=%DEFAULT_COMMIT_MSG%"
+) else (
+  set "COMMIT_MSG=%~1"
+)
+
+echo WAGICH safe push to origin/%BRANCH%
+echo This script never force-pushes.
+echo A successful push to main triggers GitHub Actions deploy to Yandex Object Storage.
+echo.
+
 git --version >nul 2>&1
 if errorlevel 1 (
-  echo ERROR: Git is not in PATH. Install Git and try again.
+  echo ERROR: Git is not available in PATH.
   pause
-  exit /b
+  exit /b 1
 )
 
-:: ===== Ensure we are inside a git repo =====
+hugo version >nul 2>&1
+if errorlevel 1 (
+  echo ERROR: Hugo is not available in PATH.
+  pause
+  exit /b 1
+)
+
 if not exist ".git" (
-  echo Current folder is not a git repository. Initializing...
-  git init || (echo ERROR: git init failed & pause & exit /b)
+  echo ERROR: current folder is not a Git repository.
+  pause
+  exit /b 1
 )
 
-:: ===== Configure or update "origin" remote =====
-git remote get-url origin >nul 2>&1
+for /f "tokens=*" %%B in ('git branch --show-current') do set "CURRENT_BRANCH=%%B"
+if not "%CURRENT_BRANCH%"=="%BRANCH%" (
+  echo ERROR: current branch is "%CURRENT_BRANCH%". Switch to "%BRANCH%" first.
+  pause
+  exit /b 1
+)
+
+git fetch origin %BRANCH%
 if errorlevel 1 (
-  echo Adding origin: %REPO_URL%
-  git remote add origin %REPO_URL% || (echo ERROR: cannot add origin & pause & exit /b)
-) else (
-  git remote set-url origin %REPO_URL% >nul 2>&1
+  echo ERROR: could not fetch origin/%BRANCH%.
+  pause
+  exit /b 1
 )
 
-:: ===== Fetch remote refs (if any) =====
-git fetch origin --prune >nul 2>&1
-
-:: ===== Optional: backup current origin/main into a tag =====
-if "%MAKE_REMOTE_BACKUP%"=="1" (
-  for /f "tokens=1" %%H in ('git ls-remote origin %BRANCH% ^| findstr /r "refs/heads/%BRANCH%$"') do set "REMOTE_SHA=%%H"
-  if defined REMOTE_SHA (
-    set "TS=%date:~-4%%date:~3,2%%date:~0,2%_%time:~0,2%%time:~3,2%%time:~6,2%"
-    set "TS=%TS: =0%"
-    set "BACKUP_TAG=backup-%BRANCH%-%TS%"
-    echo Creating backup tag of origin/%BRANCH%: %BACKUP_TAG% (%REMOTE_SHA%)
-    git tag -f "%BACKUP_TAG%" %REMOTE_SHA% >nul 2>&1
-    git push origin "refs/tags/%BACKUP_TAG%" >nul 2>&1
-  ) else (
-    echo origin/%BRANCH% does not exist yet. Backup is not required.
-  )
+git merge-base --is-ancestor origin/%BRANCH% HEAD
+if errorlevel 1 (
+  echo ERROR: local %BRANCH% is behind or diverged from origin/%BRANCH%.
+  echo Run: git pull --ff-only origin %BRANCH%
+  pause
+  exit /b 1
 )
 
-:: ===== Switch/create local main =====
-echo Switching to %BRANCH%...
-git checkout -B %BRANCH% || (echo ERROR: could not switch to %BRANCH% & pause & exit /b)
+set "BUILD_DIR=.hugo-local-build"
+set "BUILD_ABS=%CD%\%BUILD_DIR%"
+if exist "%BUILD_DIR%" rd /s /q "%BUILD_DIR%"
 
-:: ===== Stage and commit =====
-echo Staging files...
+echo Running Hugo build check...
+hugo --destination "%BUILD_ABS%\public" --cacheDir "%BUILD_ABS%\cache" --cleanDestinationDir --minify
+if errorlevel 1 (
+  echo ERROR: Hugo build failed. Nothing was pushed.
+  pause
+  exit /b 1
+)
+
+rd /s /q "%BUILD_DIR%" 2>nul
+rd /s /q "resources" 2>nul
+del /q ".hugo_build.lock" 2>nul
+
 git add -A
-
-echo Creating commit...
-git commit -m "%COMMIT_MSG%" >nul 2>&1
-if errorlevel 1 (
-  echo No changes detected. Creating an empty commit to record a snapshot.
-  git commit --allow-empty -m "%COMMIT_MSG%" || (echo ERROR: commit failed & pause & exit /b)
+git diff --cached --quiet
+if not errorlevel 1 (
+  echo No local changes to commit.
+  pause
+  exit /b 0
 )
 
-:: ===== Confirmation for force-push =====
 echo.
-echo WARNING: A force push to origin/%BRANCH% will be performed.
-echo This will overwrite the remote branch history with the local one.
-echo.
-choice /C YN /M "Continue?"
+echo Commit message: %COMMIT_MSG%
+choice /C YN /M "Commit and push to origin/%BRANCH%?"
 if errorlevel 2 (
-  echo Operation canceled by user.
+  echo Operation canceled.
   pause
-  exit /b
+  exit /b 1
 )
 
-:: ===== Force push to origin/main =====
-echo Pushing to origin/%BRANCH% (force)...
-git push -f origin %BRANCH%
+git commit -m "%COMMIT_MSG%"
 if errorlevel 1 (
-  echo ERROR: push failed.
+  echo ERROR: commit failed.
   pause
-  exit /b
+  exit /b 1
 )
 
-echo Done. origin/%BRANCH% has been fully replaced with the current local code.
-if defined BACKUP_TAG echo Backup tag pushed: %BACKUP_TAG%
+git push origin HEAD:%BRANCH%
+if errorlevel 1 (
+  echo ERROR: push failed. Check remote changes and credentials.
+  pause
+  exit /b 1
+)
+
+echo.
+echo OK: pushed to origin/%BRANCH%.
+echo GitHub Actions will build Hugo and deploy public/ to Yandex Object Storage.
 pause

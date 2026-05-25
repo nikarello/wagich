@@ -4,11 +4,16 @@
 {{ $csv := resources.Get "products.csv" | transform.Unmarshal }}
 {{ $map := dict }}
 {{ range $csv }}
-  {{ $map = merge $map (dict (index . 1) (dict "price" (index . 2) "in_stock" (index . 3))) }}
+  {{ $key := lower (printf "%v" (index . 1)) }}
+  {{ $map = merge $map (dict $key (dict "price" (index . 2) "in_stock" (index . 3))) }}
 {{ end }}
 
 <section class="max-w-5xl mx-auto px-4 py-10">
-  {{ $img := (print "images/" (lower .File.BaseFileName) ".jpg") | relURL }}
+  {{ $base := lower .File.BaseFileName }}
+  {{ $img := "" }}
+  {{ with resources.Get (print "images/" $base ".jpg") }}
+    {{ $img = .RelPermalink }}
+  {{ end }}
 
   <div class="bg-white rounded-2xl shadow-md overflow-hidden flex flex-col lg:flex-row gap-6">
 
@@ -37,7 +42,7 @@
         {{ .Content }}
       </div>
 
-      {{ $name := .File.BaseFileName }}
+      {{ $name := lower .File.BaseFileName }}
       {{ with index $map $name }}
         <p class="text-base text-[#141414]"><strong>💰 Цена:</strong> {{ .price }} ₽</p>
 
@@ -68,13 +73,14 @@
     {{ $others := where $all "RelPermalink" "ne" $current }}
 
     {{ range first 6 (shuffle $others) }}
+      {{ $title := .Title }}
       {{ $base := .File.BaseFileName | lower }}
       {{ $imgPath := print "images/" $base ".jpg" }}
 
       <a href="{{ .RelPermalink }}" class="block border rounded-lg overflow-hidden shadow hover:shadow-md transition">
         {{ with resources.Get $imgPath }}
           {{ $resized := .Fit "400x500" }}
-          <img src="{{ $resized.RelPermalink }}" alt="{{ .Title }}" class="w-full h-48 object-cover" />
+          <img src="{{ $resized.RelPermalink }}" alt="{{ $title }}" class="w-full h-48 object-cover" />
         {{ else }}
           <div class="w-full h-48 flex items-center justify-center bg-gray-200 text-gray-500">
             Нет изображения

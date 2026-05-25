@@ -41,6 +41,9 @@ jobs:
           # Remove UTF-8 BOM if present
           sed -i '1s/^\xEF\xBB\xBF//' assets/products.csv
 
+          # Normalize the first header. The source sheet may export it as an empty column.
+          sed -i '1s/^ *,name,price,in_stock$/id,name,price,in_stock/' assets/products.csv
+
       - name: 🚀 Commit and push to main (only if changed)
         run: |
           set -euo pipefail

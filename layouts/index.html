@@ -11,6 +11,7 @@
 {{/* === Список товаров === */}}
 {{ $pages := where .Site.RegularPages "Section" "tapestry" }}
 {{ $total := len $pages }}
+{{ $hero := resources.Get "images/hero.jpg" }}
 
 <style>
   /* 2 строки и обрезка — чтобы низ карточек (цена+стрелка) был на одном уровне */
@@ -27,7 +28,7 @@
   <!-- Hero-секция -->
   <section class="@container @[480px]:p-4">
     <div class="flex min-h-[280px] flex-col gap-6 bg-cover bg-center bg-no-repeat @[280px]:gap-8 @[480px]:rounded-xl items-center justify-center p-4"
-         style='background-image: linear-gradient(rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.4) 100%), url("{{ "images/hero.jpg" | absURL }}");'>
+         style='background-image: linear-gradient(rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.4) 100%), url("{{ with $hero }}{{ .RelPermalink }}{{ else }}{{ "images/hero.jpg" | relURL }}{{ end }}");'>
 
       <div class="flex flex-col gap-2 text-center">
         <h1 class="text-white text-4xl font-black leading-tight tracking-[-0.033em] @[480px]:text-5xl">Стиль жизни</h1>

@@ -1,4 +1,4 @@
- ,name,price,in_stock
+id,name,price,in_stock
 22,aot_1,3600,0
 23,aot_2,3600,5
 24,aot_3,3600,0

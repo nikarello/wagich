@@ -1,0 +1,6 @@
+public/
+resources/
+.hugo_build.lock
+.hugo-*-build/
+.hugo-local-build/
+.hugo-preflight-build/

@@ -1,80 +1,56 @@
 @echo off
-setlocal enabledelayedexpansion
+setlocal
+cd /d "%~dp0"
 
-:: === ПАРАМЕТРЫ ===
-set "REPO_URL=https://github.com/nikarello/wagich.git"
-set "CSV_URL=https://docs.google.com/spreadsheets/d/1G-0NZi7_omk37RKGFr7A6eVuGZLkGzx3TMJuS4LH0ew/export?format=csv"
+set "BUILD_DIR=.hugo-local-build"
+set "BUILD_ABS=%CD%\%BUILD_DIR%"
 
-:: === 0. Скачиваем CSV из Google Sheets
-echo 📥 Загрузка product данных из Google Sheets...
-mkdir assets 2>nul
-curl -L %CSV_URL% -o assets/products.csv
+echo WAGICH local build check
+echo This script does not push to GitHub or deploy to hosting.
+echo GitHub Actions deploys main to Yandex Object Storage.
+echo.
 
-if %errorlevel% neq 0 (
-    echo ❌ Ошибка при загрузке данных. Проверь URL или подключение.
-    pause
-    goto :EOF
+git --version >nul 2>&1
+if errorlevel 1 (
+  echo ERROR: Git is not available in PATH.
+  pause
+  exit /b 1
 )
 
-:: === 1. Проверка, что assets/images существует
-if not exist assets\images (
-    echo ❌ Папка assets\images не найдена. Без неё картинки не будут обработаны Hugo.
-    pause
-    goto :EOF
+hugo version >nul 2>&1
+if errorlevel 1 (
+  echo ERROR: Hugo is not available in PATH.
+  pause
+  exit /b 1
 )
 
-:: === 2. Очистка предыдущей сборки
-echo 🔄 Очистка public и кэша ресурсов...
-rd /s /q public 2>nul
-rd /s /q resources 2>nul
-
-:: === 3. Перейти в корень проекта
-cd /d %~dp0
-
-:: === 4. Hugo сборка
-echo 🛠️ Hugo сборка...
-hugo --cleanDestinationDir --minify
-
-if %errorlevel% neq 0 (
-    echo ❌ Hugo сборка не удалась.
-    echo ℹ️ Проверь логи выше: возможно, ошибка в шаблоне или пути к картинке.
-    pause
-    goto :EOF
+if not exist "assets\products.csv" (
+  echo ERROR: assets\products.csv not found.
+  pause
+  exit /b 1
 )
 
-:: === 5. Переход в public/
-cd public
-
-:: === 6. Настроить git
-if not exist ".git" (
-    git init
-    git remote add origin %REPO_URL%
+if not exist "assets\images" (
+  echo ERROR: assets\images not found.
+  pause
+  exit /b 1
 )
 
-:: === 7. Переключиться на gh-pages
-git checkout -B gh-pages
+if exist "%BUILD_DIR%" rd /s /q "%BUILD_DIR%"
 
-:: === 8. ДОБАВЛЯЕМ картинки после сборки
-git add images/*.jpg
-
-:: === 9. Проверить изменения
-git add .
-git diff --cached --quiet
-if !errorlevel! equ 0 (
-    echo 🔕 Нет изменений — пуш не требуется.
-    pause
-    goto :EOF
+echo Running Hugo build into %BUILD_DIR%...
+hugo --destination "%BUILD_ABS%\public" --cacheDir "%BUILD_ABS%\cache" --cleanDestinationDir --minify
+if errorlevel 1 (
+  echo ERROR: Hugo build failed.
+  pause
+  exit /b 1
 )
 
-:: === 10. Коммит и пуш
-git commit -m "🚀 Deploy Hugo site with updated catalog"
-git push -f origin gh-pages
+rd /s /q "%BUILD_DIR%" 2>nul
+rd /s /q "resources" 2>nul
+del /q ".hugo_build.lock" 2>nul
 
-:: === 11. Дополнительно: коммит исходных изображений в assets (один раз)
-cd ..
-git add assets/images/ 2>nul
-git commit -m "📦 Добавлены исходные изображения для Hugo"
-git push
-
-echo ✅ Сайт обновлён и опубликован на GitHub Pages!
+echo.
+echo OK: local build check passed.
+echo Next step: commit and push to main. GitHub Actions will deploy to Yandex.
 pause
