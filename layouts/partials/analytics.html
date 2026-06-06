@@ -1,0 +1,224 @@
+{{ $analytics := .Site.Params.analytics }}
+{{ $ymID := "" }}
+{{ $clarityID := "" }}
+{{ $debug := false }}
+{{ with $analytics }}
+  {{ with .yandexMetricaId }}{{ $ymID = printf "%v" . }}{{ end }}
+  {{ with .microsoftClarityId }}{{ $clarityID = printf "%v" . }}{{ end }}
+  {{ with .debug }}{{ $debug = . }}{{ end }}
+{{ end }}
+{{ $ymCounterID := 0 }}
+{{ if $ymID }}{{ $ymCounterID = int $ymID }}{{ end }}
+
+{{ if $ymID }}
+<script>
+  (function(m,e,t,r,i,k,a){
+    m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+    m[i].l=1*new Date();
+    for (var j = 0; j < document.scripts.length; j++) {
+      if (document.scripts[j].src === r) { return; }
+    }
+    k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a);
+  })(window, document, "script", "https://mc.yandex.ru/metrika/tag.js?id={{ $ymID }}", "ym");
+
+  ym({{ $ymCounterID }}, "init", {
+    ssr: true,
+    clickmap: true,
+    ecommerce: "dataLayer",
+    referrer: document.referrer,
+    url: location.href,
+    trackLinks: true,
+    accurateTrackBounce: true,
+    webvisor: true
+  });
+</script>
+<noscript><div><img src="https://mc.yandex.ru/watch/{{ $ymID }}" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+{{ end }}
+
+{{ if $clarityID }}
+<script>
+  (function(c,l,a,r,i,t,y){
+    c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+    t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+    y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+  })(window, document, "clarity", "script", "{{ $clarityID }}");
+</script>
+{{ end }}
+
+<script>
+  window.WAGICH_ANALYTICS = {
+    yandexMetricaId: "{{ $ymID }}",
+    microsoftClarityId: "{{ $clarityID }}",
+    debug: {{ if $debug }}true{{ else }}false{{ end }}
+  };
+
+  (function () {
+    const config = window.WAGICH_ANALYTICS || {};
+    const maxTextLength = 80;
+    const sentTimeMarks = new Set();
+
+    function cleanText(value) {
+      return String(value || "").replace(/\s+/g, " ").trim().slice(0, maxTextLength);
+    }
+
+    function safeUrl(value) {
+      if (!value) return "";
+      try {
+        const url = new URL(value, window.location.href);
+        return url.origin === window.location.origin ? url.pathname + url.hash : url.hostname + url.pathname;
+      } catch (_) {
+        return String(value).slice(0, 120);
+      }
+    }
+
+    function slugFromPath(path, marker) {
+      const parts = String(path || "").split("/").filter(Boolean);
+      const index = parts.indexOf(marker);
+      return index >= 0 ? parts[index + 1] || "" : "";
+    }
+
+    function pageType() {
+      const path = window.location.pathname;
+      if (path === "/" || path === "") return "home";
+      if (path === "/tags/") return "public_tags_index";
+      if (path.startsWith("/tags/")) return "public_tag";
+      if (path === "/tapestry/") return "catalog_section";
+      if (path.startsWith("/tapestry/")) return "product";
+      return "page";
+    }
+
+    function sectionName(element) {
+      const section = element && element.closest ? element.closest("section, header, footer, main") : null;
+      if (!section) return "";
+      const heading = section.querySelector("h1, h2, h3");
+      return cleanText(section.id || section.getAttribute("aria-label") || (heading && heading.textContent));
+    }
+
+    function send(eventName, params) {
+      const payload = Object.assign({
+        event: eventName,
+        page_type: pageType(),
+        page_path: window.location.pathname,
+        page_title: document.title
+      }, params || {});
+
+      if (config.debug && window.console) {
+        console.log("[analytics]", eventName, payload);
+      }
+
+      if (config.yandexMetricaId && typeof window.ym === "function") {
+        window.ym(Number(config.yandexMetricaId), "reachGoal", eventName, payload);
+      }
+
+      if (config.microsoftClarityId && typeof window.clarity === "function") {
+        window.clarity("event", eventName);
+      }
+    }
+
+    function classifyClick(element, hrefPath) {
+      const href = element.getAttribute("href") || "";
+      const path = hrefPath || "";
+
+      if (href.includes("t.me/wa_gi_ch")) return "telegram_channel_click";
+      if (href.includes("t.me/wagich_admin")) return "telegram_contact_click";
+      if (href.includes("#catalog")) return "catalog_return_click";
+      if (element.matches("[data-stock-filter]")) return "stock_filter_click";
+      if (path === "/tags/" || path.endsWith("/tags/")) return "all_public_tags_click";
+      if (path.includes("/tags/")) return "public_tag_click";
+      if (path.includes("/tapestry/")) return "product_card_click";
+      if (element.tagName === "BUTTON") return "button_click";
+      return "link_click";
+    }
+
+    function handleClick(event) {
+      const element = event.target && event.target.closest ? event.target.closest("a, button, [role='button'], input[type='button'], input[type='submit']") : null;
+      if (!element) return;
+
+      const href = element.getAttribute("href") || "";
+      const hrefPath = safeUrl(href);
+      const eventName = classifyClick(element, hrefPath);
+      const text = cleanText(element.textContent || element.value || element.getAttribute("aria-label") || element.title);
+      const params = {
+        click_text: text,
+        click_href: hrefPath,
+        section: sectionName(element),
+        product_slug: slugFromPath(hrefPath, "tapestry"),
+        public_tag_slug: slugFromPath(hrefPath, "tags"),
+        stock_filter: element.getAttribute("data-stock-filter") || ""
+      };
+
+      send("site_click", params);
+      if (eventName !== "site_click") {
+        send(eventName, params);
+      }
+    }
+
+    function debounce(fn, delay) {
+      let timer = null;
+      return function () {
+        const args = arguments;
+        window.clearTimeout(timer);
+        timer = window.setTimeout(function () { fn.apply(null, args); }, delay);
+      };
+    }
+
+    function initSearchTracking() {
+      const input = document.getElementById("catalog-filter-q");
+      if (!input) return;
+
+      const track = debounce(function () {
+        const query = cleanText(input.value);
+        if (query.length < 2) return;
+        send("catalog_search", {
+          search_length: query.length,
+          search_query_preview: query.slice(0, 30)
+        });
+      }, 1200);
+
+      input.addEventListener("input", track);
+      input.addEventListener("keydown", function (event) {
+        if (event.key === "Enter") {
+          send("catalog_search_submit", {
+            search_length: cleanText(input.value).length
+          });
+        }
+      });
+    }
+
+    function initTimeTracking() {
+      [15, 30, 60, 120].forEach(function (seconds) {
+        window.setTimeout(function () {
+          if (document.visibilityState !== "visible" || sentTimeMarks.has(seconds)) return;
+          sentTimeMarks.add(seconds);
+          send("time_on_page", { seconds: seconds });
+        }, seconds * 1000);
+      });
+    }
+
+    function initErrorTracking() {
+      window.addEventListener("error", function (event) {
+        send("site_error", {
+          error_message: cleanText(event.message),
+          error_source: safeUrl(event.filename),
+          error_line: event.lineno || 0
+        });
+      });
+
+      window.addEventListener("unhandledrejection", function (event) {
+        send("site_error", {
+          error_message: cleanText(event.reason && (event.reason.message || event.reason)),
+          error_source: "unhandledrejection",
+          error_line: 0
+        });
+      });
+    }
+
+    document.addEventListener("click", handleClick, true);
+    document.addEventListener("DOMContentLoaded", function () {
+      send("page_ready");
+      initSearchTracking();
+      initTimeTracking();
+      initErrorTracking();
+    });
+  })();
+</script>

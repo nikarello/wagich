@@ -6,3 +6,8 @@ disableKinds = ["taxonomy", "term"]
 
 languageCode = 'ru-ru'
 title = 'WAGICH — Аниме-гобелены'
+
+[params.analytics]
+yandexMetricaId = "109428363"
+microsoftClarityId = ""
+debug = false

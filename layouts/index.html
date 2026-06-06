@@ -11,7 +11,6 @@
 {{/* === Список товаров === */}}
 {{ $pages := where .Site.RegularPages "Section" "tapestry" }}
 {{ $total := len $pages }}
-{{ $hero := resources.Get "images/hero.jpg" }}
 {{ $publicTags := resources.Get "public_tags.csv" | transform.Unmarshal }}
 
 <style>
@@ -26,55 +25,100 @@
 
 <div class="layout-content-container flex flex-col max-w-[1280px] flex-1 mx-auto">
 
-  <!-- Hero-секция -->
-  <section class="@container @[480px]:p-4">
-    <div class="flex min-h-[280px] flex-col gap-6 bg-cover bg-center bg-no-repeat @[280px]:gap-8 @[480px]:rounded-xl items-center justify-center p-4"
-         style='background-image: linear-gradient(rgba(0, 0, 0, 0.1) 0%, rgba(0, 0, 0, 0.4) 100%), url("{{ with $hero }}{{ .RelPermalink }}{{ else }}{{ "images/hero.jpg" | relURL }}{{ end }}");'>
+  <!-- Фильтры -->
+  <section aria-label="Фильтры каталога" class="px-4">
+    <div class="rounded-2xl border border-gray-200 bg-white/90 backdrop-blur p-4 shadow-sm">
+      <div class="flex flex-col gap-3">
+        <div>
+          <label for="catalog-filter-q" class="sr-only">Поиск</label>
+          <div class="flex items-center gap-2">
+            <div class="relative flex-1">
+              <svg aria-hidden="true" class="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"></circle>
+                <path d="m21 21-4.3-4.3"></path>
+              </svg>
+              <input id="catalog-filter-q"
+                     type="search"
+                     inputmode="search"
+                     placeholder="Например: berserk, берсерк, shingeki no kyojin..."
+                     class="w-full rounded-xl border-gray-200 bg-white py-2 pl-9 pr-3 text-sm focus:border-red-600 focus:ring-red-600" />
+            </div>
+          </div>
+        </div>
 
-      <div class="flex flex-col gap-2 text-center">
-        <h1 class="text-white text-4xl font-black leading-tight tracking-[-0.033em] @[480px]:text-5xl">Стиль жизни</h1>
-        <h2 class="text-white text-sm font-normal @[480px]:text-base">
-          Подборка гобеленовых ковров с топовыми аниме.
-        </h2>
+        <div class="flex flex-wrap items-center gap-2">
+          <a href="{{ "/tags/" | relURL }}"
+             class="inline-flex items-center justify-center gap-2 h-10 px-4 rounded-xl border border-gray-200 bg-white text-sm font-semibold text-gray-800 hover:bg-gray-50 active:scale-[0.98] transition">
+            <svg aria-hidden="true" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"></path>
+              <path d="M4 4.5A2.5 2.5 0 0 1 6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5z"></path>
+            </svg>
+            Подборки
+          </a>
+
+          <button id="catalog-filter-toggle"
+                  type="button"
+                  aria-expanded="false"
+                  aria-controls="catalog-filter-panel"
+                  class="inline-flex items-center justify-center gap-2 h-10 px-4 rounded-xl border border-gray-200 bg-white text-sm font-semibold text-gray-800 hover:bg-gray-50 active:scale-[0.98] transition">
+            <svg aria-hidden="true" class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M4 21v-7"></path>
+              <path d="M4 10V3"></path>
+              <path d="M12 21v-9"></path>
+              <path d="M12 8V3"></path>
+              <path d="M20 21v-5"></path>
+              <path d="M20 12V3"></path>
+              <path d="M2 14h4"></path>
+              <path d="M10 8h4"></path>
+              <path d="M18 16h4"></path>
+            </svg>
+            Фильтры
+          </button>
+        </div>
+
+        <div id="catalog-filter-panel" class="hidden rounded-xl border border-gray-200 bg-white p-3">
+          <div class="flex flex-wrap gap-2">
+            <button type="button" data-stock-filter="all"
+                    class="stock-chip inline-flex items-center justify-center h-10 px-4 rounded-full border text-sm font-semibold hover:shadow-sm active:scale-[0.98] transition
+                           bg-red-600 text-white border-red-600"
+                    aria-pressed="true">
+              Все
+            </button>
+            <button type="button" data-stock-filter="in"
+                    class="stock-chip inline-flex items-center justify-center h-10 px-4 rounded-full border text-sm font-semibold hover:shadow-sm active:scale-[0.98] transition
+                           bg-white text-gray-800 border-gray-200"
+                    aria-pressed="false">
+              В наличии
+            </button>
+            <button type="button" data-stock-filter="out"
+                    class="stock-chip inline-flex items-center justify-center h-10 px-4 rounded-full border text-sm font-semibold hover:shadow-sm active:scale-[0.98] transition
+                           bg-white text-gray-800 border-gray-200"
+                    aria-pressed="false">
+              SOLD OUT
+            </button>
+          </div>
+        </div>
       </div>
 
-      <a href="https://t.me/wa_gi_ch"
-         target="_blank" rel="noopener"
-         aria-label="Наш Telegram-канал"
-         class="inline-flex min-w-[84px] max-w-[480px] items-center justify-center
-                h-10 px-4 rounded-2xl bg-red-600 text-white text-sm
-                font-medium italic tracking-wide
-                hover:bg-red-700 hover:shadow-md active:scale-[0.98] transition">
-
-        <svg aria-hidden="true" class="w-4 h-4 mr-2" viewBox="0 0 240 240" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-          <path d="M120 0C53.7 0 0 53.7 0 120s53.7 120 120 120 120-53.7 120-120S186.3 0 120 0zm56.6 83.5l-17.9 84.6c-1.3 6-4.9 7.5-10 4.7l-27.6-20.3-13.3 12.8c-1.5 1.5-2.8 2.8-5.7 2.8l2-28.7 52.3-47.3c2.3-2.1-.5-3.3-3.6-1.2l-64.6 40.7-27.8-8.7c-6-1.9-6.1-6-1.3-8.8l108.6-41.9c5.1-1.9 9.6 1.2 8 8.9z"/>
-        </svg>
-        Наш&nbsp;ТГК
-      </a>
+      <div class="mt-3 text-sm text-gray-600">
+        Показано: <span id="catalog-visible-count" class="font-semibold text-gray-900">0</span>
+        из <span id="catalog-total-count" class="font-semibold text-gray-900">{{ $total }}</span>
+      </div>
     </div>
-  </section>
-
-  <!-- Описание -->
-  <section class="mt-8 px-4 text-center text-neutral-700 text-base leading-relaxed">
-    <p class="max-w-[720px] mx-auto">
-      Добро пожаловать в наш уютный уголок аниме-декора! Здесь вы найдёте гобелены с любимыми персонажами — стильный способ украсить комнату, вдохновиться эстетикой и сделать подарок фанату.
-      <br/>
-      Все гобелены выполнены в высоком качестве, размер — <strong>160×130 см</strong>, материал — <strong>70% полиэстер и 30% хлопок</strong>.
-    </p>
   </section>
 
   <section class="mt-8 px-4">
-    <div class="mb-4">
-      <h2 class="text-[#141414] text-[22px] font-bold tracking-[-0.015em]">Подборки по аниме</h2>
-    </div>
-
-    <div class="grid grid-flow-col auto-cols-[minmax(220px,78%)] sm:auto-cols-[260px] lg:auto-cols-[280px] gap-4 overflow-x-auto overscroll-x-contain snap-x snap-mandatory pb-3">
+    <div id="public-tags-strip" class="grid grid-flow-col auto-cols-[minmax(220px,78%)] sm:auto-cols-[260px] lg:auto-cols-[280px] gap-4 overflow-x-auto overscroll-x-contain snap-x snap-mandatory pb-3">
       {{ range after 1 $publicTags }}
         {{ if and (ge (len .) 13) (ne (index . 0) "public_slug") (eq (lower (index . 11)) "true") }}
           {{ $slug := index . 0 }}
           {{ $title := index . 1 }}
           {{ $banner := index . 2 }}
-          <a href="{{ printf "/tags/%s/" $slug | relURL }}" class="group snap-start overflow-hidden rounded-xl bg-white shadow hover:shadow-lg transition">
+          {{ $searchTags := index . 5 }}
+          <a href="{{ printf "/tags/%s/" $slug | relURL }}"
+             data-public-tag-card="1"
+             data-search="{{ lower (printf "%s %s %s" $title $slug $searchTags) }}"
+             class="group snap-start overflow-hidden rounded-xl bg-white shadow hover:shadow-lg transition">
             {{ with resources.Get $banner }}
               {{ $image := .Fill "420x140 Center" }}
               <img src="{{ $image.RelPermalink }}" alt="{{ $title }}" class="h-28 w-full object-cover transition duration-200 group-hover:scale-[1.02]" loading="lazy" />
@@ -89,69 +133,15 @@
       {{ end }}
     </div>
 
-    <div class="mt-4 text-center">
-      <a href="{{ "/tags/" | relURL }}"
-         class="inline-flex items-center justify-center rounded-xl border border-gray-200 bg-white px-5 py-3 text-sm font-bold text-gray-900 hover:bg-gray-50 transition">
-        Смотреть все подборки
-      </a>
-    </div>
-  </section>
+    <p id="public-tags-empty" class="hidden rounded-xl border border-gray-200 bg-white px-4 py-3 text-sm text-gray-600">
+      Подборки по запросу не найдены.
+    </p>
 
-  <!-- Фильтры -->
-  <section aria-label="Фильтры каталога" class="mt-8 px-4">
-    <div class="rounded-2xl border border-gray-200 bg-white/90 backdrop-blur p-4 shadow-sm">
-      <div class="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
-        <div class="flex-1">
-          <label for="catalog-filter-q" class="block text-sm font-semibold text-gray-900">Поиск</label>
-          <div class="mt-2 flex items-center gap-2">
-            <input id="catalog-filter-q"
-                   type="search"
-                   inputmode="search"
-                   placeholder="Например: berserk, берсерк, shingeki no kyojin..."
-                   class="w-full rounded-xl border-gray-200 bg-white px-3 py-2 text-sm focus:border-red-600 focus:ring-red-600" />
-            <button id="catalog-filter-clear"
-                    type="button"
-                    class="shrink-0 inline-flex items-center justify-center h-10 px-3 rounded-xl border border-gray-200 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 active:scale-[0.98] transition">
-              Сброс
-            </button>
-          </div>
-        </div>
-
-        {{/* ВАЖНО: все кнопки одного типа как "Все" */}}
-        <div class="flex flex-wrap gap-2">
-          <button type="button" data-stock-filter="all"
-                  class="stock-chip inline-flex items-center justify-center h-10 px-4 rounded-full border text-sm font-semibold hover:shadow-sm active:scale-[0.98] transition
-                         bg-red-600 text-white border-red-600"
-                  aria-pressed="true">
-            Все
-          </button>
-          <button type="button" data-stock-filter="in"
-                  class="stock-chip inline-flex items-center justify-center h-10 px-4 rounded-full border text-sm font-semibold hover:shadow-sm active:scale-[0.98] transition
-                         bg-white text-gray-800 border-gray-200"
-                  aria-pressed="false">
-            В наличии
-          </button>
-          <button type="button" data-stock-filter="out"
-                  class="stock-chip inline-flex items-center justify-center h-10 px-4 rounded-full border text-sm font-semibold hover:shadow-sm active:scale-[0.98] transition
-                         bg-white text-gray-800 border-gray-200"
-                  aria-pressed="false">
-            SOLD OUT
-          </button>
-        </div>
-      </div>
-
-      <div class="mt-3 text-sm text-gray-600">
-        Показано: <span id="catalog-visible-count" class="font-semibold text-gray-900">0</span>
-        из <span id="catalog-total-count" class="font-semibold text-gray-900">{{ $total }}</span>
-      </div>
-    </div>
   </section>
 
   <!-- Каталог -->
   <section id="catalog">
-    <h2 class="text-[#141414] text-[22px] font-bold tracking-[-0.015em] px-4 pb-3 pt-10">Каталог аниме-гобеленов</h2>
-
-    <div id="catalog-grid" class="grid grid-cols-2 md:grid-cols-3 gap-6 px-4">
+    <div id="catalog-grid" class="grid grid-cols-2 md:grid-cols-3 gap-6 px-4 pt-8">
       {{ range $pages }}
         {{ $base := .File.BaseFileName | lower }}
 
@@ -219,13 +209,17 @@
   <script>
     document.addEventListener('DOMContentLoaded', () => {
       const cards = Array.from(document.querySelectorAll('[data-product-card="1"]'));
+      const tagCards = Array.from(document.querySelectorAll('[data-public-tag-card="1"]'));
       if (!cards.length) return;
 
       const qInput = document.getElementById('catalog-filter-q');
-      const clearBtn = document.getElementById('catalog-filter-clear');
       const countEl = document.getElementById('catalog-visible-count');
       const totalEl = document.getElementById('catalog-total-count');
       const chipBtns = Array.from(document.querySelectorAll('[data-stock-filter]'));
+      const tagEmptyEl = document.getElementById('public-tags-empty');
+      const tagStripEl = document.getElementById('public-tags-strip');
+      const filterToggle = document.getElementById('catalog-filter-toggle');
+      const filterPanel = document.getElementById('catalog-filter-panel');
 
       let mode = 'all'; // all | in | out
 
@@ -249,6 +243,17 @@
       function apply() {
         const q = (qInput?.value || '').trim().toLowerCase();
         let visible = 0;
+        let visibleTags = 0;
+
+        tagCards.forEach((card) => {
+          const hay = (card.dataset.search || '').toLowerCase();
+          const show = !q || hay.includes(q);
+          card.classList.toggle('hidden', !show);
+          if (show) visibleTags += 1;
+        });
+
+        if (tagEmptyEl) tagEmptyEl.classList.toggle('hidden', visibleTags > 0);
+        if (tagStripEl) tagStripEl.classList.toggle('hidden', visibleTags === 0);
 
         cards.forEach((card) => {
           const inStock = card.dataset.instock === '1';
@@ -276,14 +281,13 @@
         });
       });
 
-      qInput?.addEventListener('input', apply);
-
-      clearBtn?.addEventListener('click', () => {
-        if (qInput) qInput.value = '';
-        mode = 'all';
-        setActiveChip();
-        apply();
+      filterToggle?.addEventListener('click', () => {
+        const isOpen = filterToggle.getAttribute('aria-expanded') === 'true';
+        filterToggle.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
+        filterPanel?.classList.toggle('hidden', isOpen);
       });
+
+      qInput?.addEventListener('input', apply);
 
       setActiveChip();
       apply();

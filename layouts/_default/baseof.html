@@ -100,6 +100,8 @@
 	
 	<link rel="icon" href="{{ "favicon.ico" | relURL }}" type="image/x-icon" />
 
+    {{ partial "analytics.html" . }}
+
   </head>
 
   {{ $wallpaper := resources.Get "images/wallpaper.jpg" }}
@@ -113,7 +115,7 @@
 	<header class="w-full border-b border-gray-200 px-6 py-4 flex justify-center items-center gap-3">
 	  <a href="/" class="flex items-center gap-3 text-lg font-bold text-gray-900 hover:text-red-600 transition-colors duration-200">
 		<img src="{{ with $logo }}{{ .RelPermalink }}{{ else }}{{ "images/logo.jpg" | relURL }}{{ end }}" alt="WAGICH logo" class="w-10 h-10 object-contain" />
-		WAGICH. – Anime Tapestries
+		WAGICH. - Аниме Гобелены
 	  </a>
 	</header>
 
@@ -122,6 +124,16 @@
       <main class="flex-1 px-6 py-8">
         {{ block "main" . }}{{ end }}
       </main>
+
+      {{ if .IsHome }}
+        <section class="border-t border-gray-200 px-6 py-8 text-center text-neutral-700 text-base leading-relaxed">
+          <p class="max-w-[760px] mx-auto">
+            Добро пожаловать в наш уютный уголок аниме-декора! Здесь вы найдёте гобелены с любимыми персонажами — стильный способ украсить комнату, вдохновиться эстетикой и сделать подарок фанату.
+            <br/>
+            Все гобелены выполнены в высоком качестве, размер — <strong>160×130 см</strong>, материал — <strong>70% полиэстер и 30% хлопок</strong>.
+          </p>
+        </section>
+      {{ end }}
 
       <footer class="border-t border-gray-200 py-6 text-center text-sm text-gray-500">
         © 2026 WAGICH. Все права защищены.
