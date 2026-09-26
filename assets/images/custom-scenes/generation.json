@@ -1,0 +1,37 @@
+{
+  "tool": "Built-in image_gen",
+  "approved_concepts": "armchair, bedspread, floor",
+  "edits": [
+    {
+      "key": "armchair",
+      "file": "exec-431f87d3-5dca-45ad-9d43-9f3c046ce399.png",
+      "prompt": "Use case: precise-object-edit. This supplied image is the edit target, an already approved photograph layout for a browser product mockup. Make ONE tightly constrained edit: remove ALL colored artwork (red sun, tan arch, green/teal hills, little lines) ONLY from the woven tapestry fabric, replacing the printed area with completely unprinted neutral medium-light GRAY jacquard fabric, approximately #bcbcbc diffuse albedo. No colored design, no ghost pattern, no decorative borders added. Retain the tiny woven fibers and all original realistic light, shadows, folds, creases, silhouette, stitched binding and short fringe in exactly the same positions. Keep the original beige-gray fringe unchanged. All room pixels, furniture, bedding, plants, pillows, wood floor, lens, camera, crop and perspective must be as identical to the original as possible. Do not resize, recenter, straighten, stretch, thicken, flatten or rearrange the cloth. The flat floor tapestry must remain flat; the chair and bed cloth must retain their original soft draping. No typography, logos or labels. Output one square photorealistic image. This is a neutral fabric template intended for a new image to be composited onto its surface in code."
+    },
+    {
+      "key": "bedspread",
+      "file": "exec-03dc465f-1f3d-4307-a39d-a8e246e0fcff.png",
+      "prompt": "Use case: precise-object-edit. This supplied image is the edit target, an already approved photograph layout for a browser product mockup. Make ONE tightly constrained edit: remove ALL colored artwork (red sun, tan arch, green/teal hills, little lines) ONLY from the woven tapestry fabric, replacing the printed area with completely unprinted neutral medium-light GRAY jacquard fabric, approximately #bcbcbc diffuse albedo. No colored design, no ghost pattern, no decorative borders added. Retain the tiny woven fibers and all original realistic light, shadows, folds, creases, silhouette, stitched binding and short fringe in exactly the same positions. Keep the original beige-gray fringe unchanged. All room pixels, furniture, bedding, plants, pillows, wood floor, lens, camera, crop and perspective must be as identical to the original as possible. Do not resize, recenter, straighten, stretch, thicken, flatten or rearrange the cloth. The flat floor tapestry must remain flat; the chair and bed cloth must retain their original soft draping. No typography, logos or labels. Output one square photorealistic image. This is a neutral fabric template intended for a new image to be composited onto its surface in code."
+    },
+    {
+      "key": "floor",
+      "file": "exec-aa1e428f-7e3d-4d2a-9a93-19669a5dd339.png",
+      "prompt": "Use case: precise-object-edit. This supplied image is the edit target, an already approved photograph layout for a browser product mockup. Make ONE tightly constrained edit: remove ALL colored artwork (red sun, tan arch, green/teal hills, little lines) ONLY from the woven tapestry fabric, replacing the printed area with completely unprinted neutral medium-light GRAY jacquard fabric, approximately #bcbcbc diffuse albedo. No colored design, no ghost pattern, no decorative borders added. Retain the tiny woven fibers and all original realistic light, shadows, folds, creases, silhouette, stitched binding and short fringe in exactly the same positions. Keep the original beige-gray fringe unchanged. All room pixels, furniture, bedding, plants, pillows, wood floor, lens, camera, crop and perspective must be as identical to the original as possible. Do not resize, recenter, straighten, stretch, thicken, flatten or rearrange the cloth. The flat floor tapestry must remain flat; the chair and bed cloth must retain their original soft draping. No typography, logos or labels. Output one square photorealistic image. This is a neutral fabric template intended for a new image to be composited onto its surface in code."
+    }
+  ],
+  "provided_templates": [
+    {
+      "scene": "bed",
+      "source": "codex-clipboard-55b7be88-96c1-40c3-99f5-5fc01437adf1.png",
+      "width": 1040,
+      "height": 1280,
+      "note": "User-provided PNG, copied unchanged."
+    },
+    {
+      "scene": "wall",
+      "source": "codex-clipboard-44993d31-c310-4205-a878-a1d41ade3f17.png",
+      "width": 1280,
+      "height": 960,
+      "note": "User-provided PNG, copied unchanged."
+    }
+  ]
+}

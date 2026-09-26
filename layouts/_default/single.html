@@ -90,6 +90,7 @@
         </div>
       {{ end }}
 
+      {{ partial "interior-preview-link.html" (dict "page" .) }}
       <a href="https://t.me/wagich_admin" target="_blank"
          class="mt-4 bg-black text-white text-sm font-bold px-5 py-2 rounded-lg hover:bg-gray-800 transition">
         ✉️ Написать в Telegram
@@ -111,7 +112,8 @@
       {{ $base := .File.BaseFileName | lower }}
       {{ $imgPath := print "images/" $base ".jpg" }}
 
-      <a href="{{ .RelPermalink }}" class="block border rounded-lg overflow-hidden shadow hover:shadow-md transition">
+      <article class="flex flex-col border rounded-lg overflow-hidden shadow hover:shadow-md transition">
+        <a href="{{ .RelPermalink }}" class="block flex-1">
         {{ with resources.Get $imgPath }}
           {{ $resized := .Fit "400x500" }}
           <img src="{{ $resized.RelPermalink }}" alt="{{ $title }}" class="w-full h-48 object-cover" />
@@ -129,7 +131,8 @@
             <p class="text-gray-400 mt-1">Цена недоступна</p>
           {{ end }}
         </div>
-      </a>
+        </a>
+      </article>
     {{ end }}
   </div>
 

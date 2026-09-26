@@ -25,6 +25,15 @@
 
 <div class="layout-content-container flex flex-col max-w-[1280px] flex-1 mx-auto">
 
+  <section aria-label="Гобелен с вашим изображением" class="mx-4 mb-6 flex flex-col gap-4 rounded-2xl bg-neutral-900 p-6 text-white sm:flex-row sm:items-center sm:justify-between">
+    <div>
+      <p class="text-xs font-bold uppercase tracking-widest text-red-300">Ваше изображение · 130 × 160 см</p>
+      <h1 class="mt-2 text-2xl font-bold">Гобелен, который придумали вы</h1>
+      <p class="mt-2 text-sm text-neutral-300">Загрузите картинку. Выберите обрезку. Посмотрите результат в интерьере.</p>
+    </div>
+    <a href="{{ "/custom/" | relURL }}" class="inline-flex shrink-0 items-center justify-center rounded-xl bg-white px-5 py-3 text-sm font-bold text-neutral-900 hover:bg-red-50">Создать свой гобелен ↗</a>
+  </section>
+
   <!-- Фильтры -->
   <section aria-label="Фильтры каталога" class="px-4">
     <div class="rounded-2xl border border-gray-200 bg-white/90 backdrop-blur p-4 shadow-sm">
@@ -162,11 +171,11 @@
           {{ $tags = delimit . " " }}
         {{ end }}
 
-        <a href="{{ .RelPermalink }}"
-           data-product-card="1"
+        <article data-product-card="1"
            data-instock="{{ cond $isIn "1" "0" }}"
            data-search="{{ lower (printf "%s %s %s" .Title $base $tags) }}"
            class="group flex flex-col gap-2 rounded-xl overflow-hidden shadow hover:shadow-lg transition bg-white">
+          <a href="{{ .RelPermalink }}" class="flex flex-col flex-1 gap-2">
 
           <div class="relative">
             {{ with $chosen }}
@@ -201,7 +210,8 @@
               </span>
             </div>
           </div>
-        </a>
+          </a>
+        </article>
       {{ end }}
     </div>
   </section>

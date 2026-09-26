@@ -1,0 +1,18 @@
+{{ $page := .page }}
+{{ if eq $page.Section "tapestry" }}
+  {{ with $page.File }}
+    {{ $slug := lower .BaseFileName }}
+    {{ if resources.Get (printf "images/%s.jpg" $slug) }}
+      <div class="product-interior-action">
+        <a href="{{ printf "%s?%s" ("/custom/" | relURL) (querify "product" $slug) }}" class="interior-preview-link" data-interior-product="{{ $slug }}" aria-label="Посмотреть в интерьере: {{ $page.Title }}">
+          <svg class="interior-preview-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true" focusable="false">
+            <rect x="9" y="2" width="6" height="5" rx="1" />
+            <path d="M6 13v-2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v2" />
+            <path d="M7 16v-1a2 2 0 0 0-4 0v4h18v-4a2 2 0 0 0-4 0v1H7ZM5 19v2m14-2v2" />
+          </svg>
+          <span>Посмотреть в интерьере</span>
+        </a>
+      </div>
+    {{ end }}
+  {{ end }}
+{{ end }}

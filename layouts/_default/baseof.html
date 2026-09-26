@@ -33,6 +33,11 @@
         font-family: "Plus Jakarta Sans", "Noto Sans", sans-serif;
       }
 
+      .interior-preview-link { display:flex; align-items:center; justify-content:center; gap:8px; min-height:44px; padding:10px 8px; border:1px solid #ddd8d0; border-radius:8px; color:#45413c; background:#faf9f6; font-size:12px; font-weight:600; line-height:1.4; text-align:center; text-decoration:none; }
+      .interior-preview-icon { flex-shrink:0; }
+      .interior-preview-link:hover { color:#b82d28; border-color:#b82d28; background:#fff5f2; }
+      .interior-preview-link:focus-visible { outline:3px solid #b82d28; outline-offset:3px; }
+
       .product-content img {
         max-width: 100%;
         height: auto;
@@ -100,7 +105,8 @@
 	
 	<link rel="icon" href="{{ "favicon.ico" | relURL }}" type="image/x-icon" />
 
-    {{ partial "analytics.html" . }}
+    {{ if not .Params.private_editor }}{{ partial "analytics.html" . }}{{ end }}
+    {{ block "head" . }}{{ end }}
 
   </head>
 
@@ -112,11 +118,13 @@
 
     <div class="max-w-[1280px] mx-auto bg-white/100 min-h-screen rounded-[20px] shadow-md flex flex-col mt-8 mb-8 p-1">
 
-	<header class="w-full border-b border-gray-200 px-6 py-4 flex justify-center items-center gap-3">
+	<header class="w-full border-b border-gray-200 px-6 py-4 flex flex-wrap justify-center items-center gap-3">
 	  <a href="/" class="flex items-center gap-3 text-lg font-bold text-gray-900 hover:text-red-600 transition-colors duration-200">
 		<img src="{{ with $logo }}{{ .RelPermalink }}{{ else }}{{ "images/logo.jpg" | relURL }}{{ end }}" alt="WAGICH logo" class="w-10 h-10 object-contain" />
 		WAGICH. - Аниме Гобелены
 	  </a>
+
+      <a href="{{ "/custom/" | relURL }}" class="inline-flex items-center rounded-full border border-red-200 px-4 py-2 text-sm font-bold text-red-700 hover:bg-red-50">Свой гобелен ↗</a>
 	</header>
 
 
@@ -145,7 +153,7 @@
 	<script>
 	  document.addEventListener('DOMContentLoaded', () => {
 		const container = document.getElementById('zoom-container');
-		if (!container) return;
+		if (!container || typeof Panzoom !== 'function') return;
 
 		const panzoom = Panzoom(container, {
 		  maxScale: 3,
@@ -208,5 +216,6 @@
 
 
 
+    {{ block "scripts" . }}{{ end }}
   </body>
 </html>

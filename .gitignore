@@ -4,6 +4,7 @@ resources/
 .hugo-*-build/
 .hugo-local-build/
 .hugo-preflight-build/
+assets/jsconfig.json
 tag-banners-candidates*/
 tag-banners-selected/
 seo-input/

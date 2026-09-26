@@ -84,7 +84,8 @@
           {{ $sold := resources.Get (print "images/" $base "___soldout.jpg") }}
           {{ $chosen := cond $isIn $normal (or $sold $normal) }}
 
-          <a href="{{ .RelPermalink }}" class="group flex flex-col overflow-hidden rounded-xl bg-white shadow hover:shadow-lg transition">
+          <article class="group flex flex-col overflow-hidden rounded-xl bg-white shadow hover:shadow-lg transition">
+            <a href="{{ .RelPermalink }}" class="flex flex-col flex-1">
             {{ with $chosen }}
               {{ $image := .Fit "400x500" }}
               <img src="{{ $image.RelPermalink }}" alt="{{ $productTitle }}" class="aspect-[4/5] w-full object-cover" loading="lazy" />
@@ -103,7 +104,8 @@
                 <span class="inline-flex h-9 w-9 items-center justify-center rounded-full border border-gray-200 text-gray-800 group-hover:bg-gray-50">→</span>
               </div>
             </div>
-          </a>
+            </a>
+          </article>
         {{ end }}
       {{ end }}
     </div>

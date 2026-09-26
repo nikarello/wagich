@@ -1,0 +1,9 @@
+{{ $products := dict }}
+{{ range where .Site.RegularPages "Section" "tapestry" }}
+  {{ $slug := lower .File.BaseFileName }}
+  {{ $title := .Title }}
+  {{ with resources.Get (printf "images/%s.jpg" $slug) }}
+    {{ $products = merge $products (dict $slug (dict "src" .RelPermalink "title" $title)) }}
+  {{ end }}
+{{ end }}
+<script type="application/json" id="ct-catalog-products">{{ $products | jsonify | safeJS }}</script>

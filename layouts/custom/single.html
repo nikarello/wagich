@@ -1,0 +1,97 @@
+{{ define "head" }}
+  {{ $css := resources.Get "css/custom-tapestry.css" | minify | fingerprint }}
+  <link rel="stylesheet" href="{{ $css.RelPermalink }}" integrity="{{ $css.Data.Integrity }}" />
+{{ end }}
+
+{{ define "main" }}
+<div class="custom-tapestry" id="custom-tapestry">
+  <a class="ct-back" href="{{ "/" | relURL }}">← В каталог</a>
+  <div class="ct-heading">
+    <div>
+      <p class="ct-eyebrow">WAGICH / ВАШ ДИЗАЙН</p>
+      <h1>Ваше изображение.<br>Ваш гобелен.</h1>
+    </div>
+    <div class="ct-size-badge"><strong>130 × 160</strong><span>см · ширина × высота</span></div>
+  </div>
+
+  <noscript><p class="ct-notice">Включите JavaScript, чтобы загрузить изображение и настроить обрезку.</p></noscript>
+  <div class="ct-workspace">
+    <section class="ct-editor" aria-label="Редактор изображения">
+      <div class="ct-section-title"><span class="ct-step">01</span><h2>Изображение</h2></div>
+      <div class="ct-upload" id="ct-dropzone">
+        <svg aria-hidden="true" viewBox="0 0 32 32" fill="none"><path d="M16 21V5m-6 6 6-6 6 6M5 21v6h22v-6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <button type="button" class="ct-button ct-primary" id="ct-upload-button" disabled>Выбрать изображение</button>
+        <input id="ct-file" type="file" accept="image/jpeg,image/png,image/webp,.jpg,.jpeg,.png,.webp" hidden />
+        <span>JPG, PNG, WebP · до 25 МБ · до 32 Мп</span>
+      </div>
+      <p id="ct-file-status" class="ct-file-status" role="status" aria-live="polite"></p>
+      <p id="ct-error" class="ct-error" role="alert" hidden></p>
+
+      <div class="ct-section-title ct-crop-title"><span class="ct-step">02</span><h2>Обрезка</h2><button class="ct-text-button" type="button" id="ct-reset" disabled>Сбросить</button></div>
+      <div class="ct-crop-wrap">
+        <div class="ct-width-label">130 см</div>
+        <div class="ct-crop-stage" id="ct-crop-stage" tabindex="0" role="group" aria-label="Область обрезки 130 на 160 сантиметров" aria-keyshortcuts="ArrowLeft ArrowRight ArrowUp ArrowDown" aria-disabled="true">
+          <canvas id="ct-crop-canvas" width="650" height="800" aria-label="Выбранная область изображения"></canvas>
+          <div class="ct-crop-empty" id="ct-crop-empty"><span>13:16</span></div>
+          <div class="ct-crop-grid" aria-hidden="true"></div>
+        </div>
+        <div class="ct-height-label">160 см</div>
+      </div>
+      <div class="ct-zoom-control"><label for="ct-zoom">Масштаб</label><output for="ct-zoom" id="ct-zoom-value">100%</output></div>
+      <input id="ct-zoom" class="ct-range" type="range" min="1" max="4" step="0.01" value="1" disabled />
+      <p class="ct-quality" id="ct-quality" role="status"></p>
+    </section>
+
+    <section class="ct-preview-panel" aria-label="Предпросмотр гобелена">
+      <div class="ct-preview-heading"><div class="ct-section-title"><span class="ct-step">03</span><h2>Предпросмотр</h2></div><span class="ct-example-badge" id="ct-example-badge">Пример</span></div>
+      <div class="ct-scenes" role="group" aria-label="Место для гобелена">
+        <button type="button" data-scene="cover" aria-pressed="true">Гобелен</button>
+        {{ range slice (dict "key" "bed" "label" "Над кроватью") (dict "key" "wall" "label" "Над диваном") (dict "key" "armchair" "label" "На кресле") (dict "key" "bedspread" "label" "На кровати") (dict "key" "floor" "label" "На полу") }}
+          {{ $photo := resources.Get (printf "images/custom-scenes/%s-neutral.png" .key) }}
+          {{ $photo = $photo.Resize (printf "%dx webp q88" $photo.Width) | fingerprint }}
+          <button type="button" data-scene="{{ .key }}" data-photo-url="{{ $photo.RelPermalink }}" aria-pressed="false">{{ .label }}</button>
+        {{ end }}
+      </div>
+      <div class="ct-scene" id="ct-scene" data-scene="cover" role="img" aria-label="Предпросмотр: гобелен отдельно">
+        <div class="ct-room-wall" aria-hidden="true"></div>
+        <div class="ct-window-light" aria-hidden="true"></div>
+        {{ partial "custom-room-scenes.html" . }}
+        {{ $template := resources.Get "js/custom-template.json" | transform.Unmarshal }}
+        {{ $outline := slice }}
+        {{ range $template.outline }}
+          {{ $outline = $outline | append (printf "%.6f%% %.6f%%" (mul (div (float (index . 0)) (float $template.width)) 100) (mul (div (float (index . 1)) (float $template.height)) 100)) }}
+        {{ end }}
+        <div class="ct-tapestry" id="ct-tapestry" style="{{ printf "--ct-template-clip: polygon(%s)" (delimit $outline ", ") | safeCSS }}" aria-hidden="true">
+          <div class="ct-template-clip">
+            <div class="ct-tapestry-art">
+              {{ $example := resources.Get "images/custom-example.svg" | fingerprint }}
+              <img id="ct-example" src="{{ $example.RelPermalink }}" alt="" width="650" height="800" />
+              <canvas id="ct-preview-canvas" width="650" height="800" hidden></canvas>
+              <div class="ct-weave"></div>
+            </div>
+          </div>
+          {{ $frame := resources.Get "images/custom-tapestry-frame.png" | fingerprint }}
+          <img class="ct-template-frame" id="ct-template-frame" src="{{ $frame.RelPermalink }}" alt="" width="1131" height="1391" draggable="false" />
+        </div>
+        <div class="ct-scene-caption" id="ct-scene-caption">130 × 160 СМ</div>
+      </div>
+      <div class="ct-photo-status"><span id="ct-photo-status" role="status" aria-live="polite"></span><button type="button" class="ct-button ct-secondary" id="ct-photo-retry" hidden>Повторить</button></div>
+      {{ partial "custom-room-palette.html" . }}
+      <div class="ct-order">
+        <div class="ct-downloads">
+          <button type="button" id="ct-download" class="ct-button ct-primary" disabled>Сохранить PNG ↓</button>
+          <button type="button" id="ct-download-pdf" class="ct-button ct-secondary" disabled>Сохранить PDF ↓</button>
+        </div>
+        <a class="ct-button ct-secondary" href="https://t.me/wagich_admin" target="_blank" rel="noopener noreferrer">Заказать в Telegram ↗</a>
+        <p id="ct-export-status" class="ct-helper" role="status" aria-live="polite"></p>
+      </div>
+    </section>
+  </div>
+</div>
+{{ end }}
+
+{{ define "scripts" }}
+  {{ partial "custom-catalog-data.html" . }}
+  {{ $js := resources.Get "js/custom-tapestry.mjs" | js.Build (dict "target" "es2018" "minify" true) | fingerprint }}
+  <script src="{{ $js.RelPermalink }}" integrity="{{ $js.Data.Integrity }}" defer></script>
+{{ end }}

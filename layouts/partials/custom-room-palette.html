@@ -1,0 +1,22 @@
+<div class="ct-palette" aria-label="Цвета интерьера">
+  <p>Ваши цвета</p>
+  {{ $colors := slice
+    (dict "name" "Молочный" "value" "#e8e2d8")
+    (dict "name" "Песочный" "value" "#b9a38b")
+    (dict "name" "Шалфей" "value" "#7f8980")
+    (dict "name" "Терракота" "value" "#ad7563")
+    (dict "name" "Синий" "value" "#687c91")
+    (dict "name" "Графит" "value" "#505357")
+  }}
+  {{ range slice (dict "key" "wall" "label" "Стена" "default" "#e8e2d8") }}
+    {{ $group := . }}
+    <div class="ct-palette-row" data-palette-row="{{ .key }}" {{ if ne .key "wall" }}hidden{{ end }}>
+      <span>{{ .label }}</span>
+      <div class="ct-swatches" role="group" aria-label="{{ .label }}">
+        {{ range $colors }}
+          <button class="ct-swatch" type="button" data-palette="{{ $group.key }}" data-color="{{ .value }}" style="--ct-swatch: {{ .value | safeCSS }}" aria-label="{{ $group.label }}: {{ .name }}" title="{{ .name }}" aria-pressed="{{ if eq .value $group.default }}true{{ else }}false{{ end }}"></button>
+        {{ end }}
+      </div>
+    </div>
+  {{ end }}
+</div>
